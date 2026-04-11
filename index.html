@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Data Project 2</title>
+    <link rel="stylesheet" href="https://use.typekit.net/sot5lbi.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <button id="togglePanelBtn" class="toggle-panel-btn" aria-label="Hide right panel">
+      <img id="togglePanelIcon" src="images/invisible.svg" alt="Hide panel" />
+    </button>
+    <div id="loadingOverlay" class="loading-overlay" aria-live="polite">
+      <div class="loading-card">
+        <p id="loadingLabel" class="loading-title">Finding your music connections...</p>
+        <div class="loading-bar" aria-hidden="true">
+          <div id="loadingBarFill" class="loading-bar-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-bg" aria-hidden="true"></div>
+    <header class="hero-copy" aria-label="Project heading">
+      <h1>
+        <span class="title-main">Cönnections</span>
+        <span class="title-sub">( feat. Music )</span>
+      </h1>
+    </header>
+
+    <main>
+      <section id="responses" aria-live="polite"></section>
+    </main>
+
+    <aside class="symbol-legend" aria-label="Symbol legend">
+      <div id="symbolPanel" class="legend-panel" aria-hidden="true">
+        <button id="symbolToggle" class="legend-toggle" type="button" aria-expanded="false" aria-controls="symbolPanel">
+          <span id="symbolToggleSymbol" class="legend-symbol" aria-hidden="true">&lt;</span>
+          <span>Symbol Guide</span>
+        </button>
+        <div class="legend-content symbol-grid">
+          <div class="symbol-item">
+            <img src="images/woman.png" class="symbol-item-img" alt="" />
+            <span class="symbol-item-label">Woman</span>
+          </div>
+          <div class="symbol-item">
+            <img src="images/men.png" class="symbol-item-img" alt="" />
+            <span class="symbol-item-label">Man</span>
+          </div>
+          <div class="symbol-item">
+            <img src="images/nonbin.png" class="symbol-item-img" alt="" />
+            <span class="symbol-item-label">Non-binary</span>
+          </div>
+          <div class="symbol-item">
+            <img src="images/other.png" class="symbol-item-img" alt="" />
+            <span class="symbol-item-label">Other</span>
+          </div>
+          <div class="symbol-item">
+            <img src="images/prefernot.png" class="symbol-item-img" alt="" />
+            <span class="symbol-item-label">Prefer not to say</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <aside class="genre-legend" aria-label="Genre legend">
+      <div id="legendPanel" class="legend-panel" aria-hidden="true">
+        <button id="legendToggle" class="legend-toggle" type="button" aria-expanded="false" aria-controls="legendPanel">
+          <span id="legendToggleSymbol" class="legend-symbol" aria-hidden="true">&lt;</span>
+          <span>Colour Guide</span>
+        </button>
+        <div class="legend-content">
+          <div class="legend-bar" style="--bar-color: #ff6f91">Pop</div>
+          <div class="legend-bar" style="--bar-color: #f7b8a8">K-pop</div>
+          <div class="legend-bar" style="--bar-color: #ff3b2f">Rock</div>
+          <div class="legend-bar" style="--bar-color: #20c997">Hip-hop / Rap</div>
+          <div class="legend-bar" style="--bar-color: #8b6ee8">R&amp;B / Soul</div>
+          <div class="legend-bar" style="--bar-color: #00cfe8">Electronic / Dance</div>
+          <div class="legend-bar" style="--bar-color: #f4a261">Country</div>
+          <div class="legend-bar" style="--bar-color: #a47148">Folk / Singer-Songwriter / Indie</div>
+          <div class="legend-bar" style="--bar-color: #5fa8ff">Jazz / Blues</div>
+          <div class="legend-bar" style="--bar-color: #9bdaf1">Classical</div>
+          <div class="legend-bar" style="--bar-color: #2ddf6e">Reggae</div>
+          <div class="legend-bar" style="--bar-color: #ffe066">Latin</div>
+          <div class="legend-bar" style="--bar-color: #aeb6c1">Metal</div>
+          <div class="legend-bar" style="--bar-color: #ffffff">Other</div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="right-controls">
+      <aside class="entry-legend" aria-label="Add an entry">
+        <button id="entryBtn" class="info-btn entry-btn" type="button" aria-label="Add an Entry">
+          <span id="entryToggleSymbol" class="legend-symbol" aria-hidden="true">&lt;</span>
+          <span>Add an Entry</span>
+        </button>
+      </aside>
+      <aside class="info-legend" aria-label="How it works">
+        <button
+          id="infoToggle"
+          class="info-btn"
+          type="button"
+          aria-label="How it works"
+          aria-expanded="false"
+          aria-controls="infoPanel"
+        >
+          <span id="infoToggleSymbol" class="legend-symbol" aria-hidden="true">&lt;</span>
+          <span>How it works</span>
+        </button>
+      </aside>
+      <div class="zoom-controls" aria-label="Zoom controls">
+        <button id="zoomResetBtn" class="zoom-btn zoom-reset" type="button" aria-label="Reset zoom">&#x21bb;</button>
+        <div class="zoom-slider-wrap">
+          <button id="zoomOutBtn" class="zoom-btn" type="button" aria-label="Zoom out">−</button>
+          <span id="zoomValue" class="zoom-value">100%</span>
+          <button id="zoomInBtn" class="zoom-btn" type="button" aria-label="Zoom in">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="entryPanel" class="entry-popup" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Add an Entry form">
+      <div class="entry-popup-card">
+        <div class="entry-popup-header">
+          <h2 class="entry-popup-title">Add an Entry</h2>
+          <button id="entryClose" class="entry-popup-close" type="button" aria-label="Close add an entry form">X</button>
+        </div>
+        <div class="entry-popup-frame-wrap">
+          <iframe
+            id="entryFrame"
+            class="entry-popup-frame"
+            src="https://forms.gle/5BrUPG1FnBCNNXZW9?embedded=true"
+            title="Google Form - Add an Entry"
+            loading="lazy"
+          ></iframe>
+          <div id="entryReturnPrompt" class="entry-return-prompt" aria-hidden="true">
+            <p class="entry-return-text">You can close this and discover your connections now.</p>
+            <button id="entryReturnCloseBtn" class="entry-return-btn" type="button">Discover Connections!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="infoPanel" class="info-popup" aria-hidden="true" role="dialog" aria-modal="true" aria-label="How it works details">
+      <div class="info-popup-card">
+        <div class="info-popup-header">
+          <h2 class="info-popup-title"><span class="info-popup-title-main">Cönnections</span> <span class="info-popup-title-sub">(feat. Music)</span></h2>
+          <p class="info-popup-copyright">© 2026 Ankie Chen</p>
+          <p class="info-popup-blurb">
+            See how your music taste connects you to others. This visualization creates connections between listeners based on favourite artists, genres and demographics.
+          </p>
+        </div>
+
+        <div class="info-popup-text">
+          <details class="info-drop info-drop-how">
+            <summary><strong>How it works</strong></summary>
+              <div class="info-drop-body">
+                <div class="info-drop-body-inner">
+                  <p>Complete the Google Form using the "Add an Entry" button.</p>
+                  <p>
+                    If you are one of the first to submit, please check back later to see more results and discover
+                    your potential connections!
+                  </p>
+                  <p>
+                    If you have any questions or feedback, please feel free to contact me at
+                    <a href="mailto:chenank@sheridancollege.ca">chenank@sheridancollege.ca</a>.
+                  </p>
+                </div>
+              </div>
+          </details>
+
+          <details class="info-drop info-drop-meaning">
+            <summary><strong>What does it mean?</strong></summary>
+              <div class="info-drop-body">
+                <div class="info-drop-body-inner">
+                  <p>Each circle represents a person.</p>
+                  <p>Refer to the Colour Guide and Symbol Guide for their meanings.</p>
+                  <p>Lines connect users who share any Top Artist (#1, #2, or #3), and a pair can have multiple lines when they match on multiple artists (hover to see the exact match).</p>
+                  <p>Click on a circle to view more details about that user.</p>
+                </div>
+              </div>
+          </details>
+        </div>
+
+        <div class="info-popup-footer-row">
+          <span class="info-spotify-text">Images provided by</span>
+          <a class="info-spotify-credit" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" aria-label="Open Spotify">
+            <img src="images/logo.png" alt="Spotify logo" class="info-spotify-logo" />
+          </a>
+          <span class="info-footer-dot" aria-hidden="true">•</span>
+          <p class="info-project-note">Student project for VDES39915</p>
+        </div>
+
+        <button id="infoClose" class="info-popup-action" type="button" aria-label="Close how it works">Discover Connections!</button>
+      </div>
+    </div>
+
+
+
+    <script src="script.js"></script>
+  </body>
+</html>
