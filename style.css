@@ -1,3 +1,129 @@
+/* Genre label text: white on hover, no glow */
+.point-group.is-revealed text {
+  fill: #fcf9f0 !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
+/* Genre outline: grey by default, colored on hover */
+.genre-outline {
+  stroke: #aeb6c1;
+  stroke-opacity: 0.82;
+  transition: stroke 140ms ease, stroke-opacity 140ms ease;
+}
+.point-group.is-revealed .genre-outline {
+  stroke: var(--genre-color) !important;
+  stroke-opacity: 1;
+}
+/* Outline path: grey by default, colored on hover */
+svg .point-group path[style*="fill:none"] {
+  stroke: #aeb6c1 !important;
+  stroke-opacity: 0.82;
+  transition: stroke 140ms ease, stroke-opacity 140ms ease;
+}
+svg .point-group.is-revealed path[style*="fill:none"] {
+  stroke: var(--genre-color) !important;
+  stroke-opacity: 1;
+}
+
+/* Hide halo/backdrop by default, show on hover */
+.point-group .point-hover-halo,
+.point-group .point-hover-backdrop {
+  opacity: 0;
+}
+.point-group.is-revealed .point-hover-halo {
+  opacity: 0.14;
+}
+.point-group.is-revealed .point-hover-backdrop {
+  opacity: 1;
+  filter: blur(0.35px);
+}
+body.home-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.home-main {
+  flex: 1 0 auto;
+}
+.home-footer {
+  flex-shrink: 0;
+}
+.home-body, .home-main {
+  overflow-x: hidden;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+/* Allow vertical overscroll for home page only */
+/* Removed overflow-y and overscroll to allow full page scrolling for footer visibility */
+/* Home page stacked containers */
+.home-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 18px;
+  margin-top: 120px;
+  margin-bottom: 24px;
+  min-height: 40vh;
+  /* height removed to allow stack to grow with content */
+}
+.home-container {
+  width: 100%;
+  max-width: 100vw;
+  min-width: 0;
+  min-height: 64px;
+  border-radius: 0;
+  background: #02121b;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+.home-container-middle {
+  background: rgba(11, 30, 43, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+/* Home page button styling: center aligned, fully rounded */
+.home-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border: none;
+  outline: none;
+  border-radius: 999px;
+  width: 240px;
+  padding: 20px 0;
+  background: linear-gradient(rgba(252, 249, 240, 0.14), rgba(252, 249, 240, 0.14)), #02121b;
+  color: #fff;
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(2, 6, 23, 0.25);
+  z-index: 22;
+  transform: translateX(0);
+  transition: transform 150ms ease, box-shadow 150ms ease, background 140ms, color 140ms;
+}
+.home-btn-title {
+  color: #fcf9f0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+.home-btn:hover {
+  background: #fcf9f0;
+  color: #0f172a;
+  /* No movement on hover */
+  box-shadow: 0 5px 16px rgba(2, 6, 23, 0.28);
+}
+
 /* Full-width background for the hero title */
 .hero-bg {
   position: fixed;
@@ -70,7 +196,7 @@ body {
   background: #02121b;
   color: #1f2937;
   min-height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden removed to allow scrolling */
 }
 
 .loading-overlay {
@@ -124,12 +250,7 @@ body {
   transition: width 220ms ease;
 }
 
-main {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-}
+
 
 .hero-copy {
   position: fixed;
@@ -138,7 +259,7 @@ main {
   transform: translateX(-50%, 0);
   width: max-content;
   text-align: center;
-  z-index: 20;
+  z-index: 100;
   opacity: 0;
   animation: none;
   background: none;
@@ -222,7 +343,6 @@ body.intro-complete .hero-copy {
   width: 100%;
   height: 100%;
 }
-
 .plot {
   width: 100vw;
   height: 100vh;
@@ -279,8 +399,14 @@ body.intro-complete .hero-copy {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-opacity: 0.68;
-  stroke: #fcf9f0;
+  stroke: #aeb6c1;
   transition: stroke 140ms ease, stroke-opacity 140ms ease;
+}
+
+/* Reveal genre color on hover */
+.point-group.is-revealed .genre-scribble {
+  stroke: var(--genre-color) !important;
+  stroke-opacity: 1;
 }
 
 .point-group {
@@ -333,6 +459,12 @@ body.intro-complete .hero-copy {
 
 .point-group.is-revealed {
   filter: drop-shadow(0 0 6px rgba(252, 249, 240, 0.38));
+}
+
+/* Remove glow from genre label text on hover */
+.point-group.is-revealed text {
+  filter: none !important;
+  text-shadow: none !important;
 }
 
 .point-group.is-revealed .participant-image {

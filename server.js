@@ -269,7 +269,10 @@ async function handleApiDebug(response) {
 
 async function serveStatic(requestUrl, response) {
   const parsedUrl = new URL(requestUrl, `http://localhost:${PORT}`);
-  const pathname = parsedUrl.pathname === "/" ? "/index.html" : parsedUrl.pathname;
+  let pathname = parsedUrl.pathname;
+  if (pathname === "/") {
+    pathname = "/home.html";
+  }
   const filePath = path.resolve(__dirname, `.${pathname}`);
   const rootPath = path.resolve(__dirname);
 

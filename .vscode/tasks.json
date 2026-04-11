@@ -184,6 +184,95 @@
 				"fetch('http://localhost:3000/api/responses').then(r=>r.json()).then(j=>console.log('ok count='+j.count)).catch(e=>{console.error('err '+e.message);process.exit(1);})"
 			],
 			"isBackground": false
+		},
+		{
+			"label": "Start API server",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"server.js"
+			],
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"label": "Restart API server with Express",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"server.js"
+			],
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"label": "Restart API server with Express",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"server.js"
+			],
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"label": "Restart API server with Express",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"server.js"
+			],
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"label": "Restart API server with Express",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"server.js"
+			],
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"label": "Restart API server with Express",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"server.js"
+			],
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"label": "Restart API server with Express",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"server.js"
+			],
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"label": "Restart API server with Express",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"server.js"
+			],
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"label": "Check port 3000 listener",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-Command",
+				"Get-NetTCPConnection -LocalPort 3000 -State Listen | Select-Object -First 5 LocalAddress,LocalPort,OwningProcess | Format-Table | Out-String"
+			]
 		}
 	]
 }

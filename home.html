@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | Dynamic Data Project 3</title>
+    <link rel="stylesheet" href="https://use.typekit.net/sot5lbi.css" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Slide-in effect for the title */
+      .slide-title {
+        opacity: 0;
+        transform: translateY(-40px);
+        animation: slideInTitle 1.2s cubic-bezier(.77,0,.18,1) 0.2s forwards;
+      }
+      @keyframes slideInTitle {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body class="home-body">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <header class="hero-copy" aria-label="Home heading">
+      <h1 id="homeTitle">
+        <span class="title-main">Cönnections</span>
+        <span class="title-sub">( feat. Music )</span>
+      </h1>
+    </header>
+    <main class="home-main">
+      <div class="home-stack">
+        <div class="home-container home-container-top">
+          <div class="home-btn-title" style="margin-top: 24px; margin-bottom: 18px;">Trending Artists</div>
+        </div>
+        <div class="home-container home-container-middle">
+          <div class="home-btn-title" style="margin-top: 24px; margin-bottom: 38px;">Placeholder Title</div>
+          <button class="home-btn" style="margin-bottom: 36px; margin-top: 10px;" onclick="window.location.href='index.html'">Enter Project</button>
+        </div>
+        <div class="home-container home-container-bottom">
+          <div class="home-btn-title" style="margin-top: 24px; margin-bottom: 18px;">Discover Artists</div>
+          <div id="genre-grid" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
+        </div>
+      </div>
+    </main>
+    <footer class="home-footer" style="background: rgba(11, 30, 43, 0.95); width: 100vw; padding: 32px 0 24px 0; text-align: center; color: #fff; font-size: 1rem; font-weight: 500; letter-spacing: 0.01em; margin-top: auto;">
+      <div style="margin-bottom: 8px; font-size: 1rem;">&copy; 2026 Ankie Chen</div>
+      <div class="info-popup-footer-row" style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-align: center; color: #fff; font-size: 1rem;">
+        <span class="info-spotify-text" style="color: #fff; font-size: 1rem;">Images provided by</span>
+        <a class="info-spotify-credit" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" aria-label="Open Spotify">
+          <img src="images/logo.png" alt="Spotify logo" class="info-spotify-logo" style="width: 72px; height: 72px; object-fit: contain;" />
+        </a>
+        <span class="info-footer-dot" aria-hidden="true" style="color: #fff; font-size: 1rem;">•</span>
+        <p class="info-project-note" style="margin: 0; color: #fff; font-size: 1rem; font-weight: 500;">Student project for VDES39915</p>
+      </div>
+    </footer>
+    <script>
+
+      // --- Genre grid rendering for home page bottom container ---
+      const GENRE_GRID = [
+        { label: 'Pop', color: '#ff6f91' },
+        { label: 'K-pop', color: '#f7b8a8' },
+        { label: 'Rock', color: '#ff3b2f' },
+        { label: 'Hip-hop / Rap', color: '#20c997' },
+        { label: 'R&B / Soul', color: '#8b6ee8' },
+        { label: 'Electronic / Dance', color: '#00cfe8' },
+        { label: 'Country', color: '#f4a261' },
+        { label: 'Folk / Singer-Songwriter / Indie', color: '#a47148' },
+        { label: 'Jazz / Blues', color: '#5fa8ff' },
+        { label: 'Classical', color: '#9bdaf1' },
+        { label: 'Reggae', color: '#2ddf6e' },
+        { label: 'Latin', color: '#ffe066' },
+        { label: 'Metal', color: '#aeb6c1' },
+        { label: 'Other', color: '#ffffff' }
+      ];
+
+      // Copy of hashText and createScribblePath from script.js
+      function hashText(text) {
+        let hash = 0;
+        for (let i = 0; i < text.length; i += 1) {
+          hash = (hash * 31 + text.charCodeAt(i)) >>> 0;
+        }
+        return hash;
+      }
+      function seededNoise(seed, index) {
+        const value = Math.sin(seed * 12.9898 + index * 78.233) * 43758.5453;
+        return value - Math.floor(value);
+      }
+      function createScribblePath(cx, cy, radius, seedText) {
+        const steps = 40;
+        const seed = hashText(seedText);
+        let path = "";
+        for (let i = 0; i <= steps; i += 1) {
+          const t = i / steps;
+          const angle = t * Math.PI * 2;
+          // More jitter for more obvious scribble
+          const jitter = (seededNoise(seed, i) - 0.5) * 2.2;
+          const r2 = radius + jitter;
+          const x = cx + Math.cos(angle) * r2;
+          const y = cy + Math.sin(angle) * r2;
+          path += i === 0 ? `M ${x.toFixed(2)} ${y.toFixed(2)}` : ` L ${x.toFixed(2)} ${y.toFixed(2)}`;
+        }
+        return `${path} Z`;
+      }
+
+      // Minimal SVGs for genre symbols, matching getSvgInlineElement in script.js
+
+      // Helper to create a white scribble-style circle outline SVG path
+      function createScribbleOutlinePath(cx, cy, radius, seedText) {
+        const steps = 40;
+        const seed = hashText(seedText);
+        let path = "";
+        for (let i = 0; i <= steps; i += 1) {
+          const t = i / steps;
+          const angle = t * Math.PI * 2;
+          const jitter = (seededNoise(seed + 999, i) - 0.5) * 0.55; // less jitter for outline
+          const r = radius + jitter;
+          const x = cx + Math.cos(angle) * r;
+          const y = cy + Math.sin(angle) * r;
+          path += i === 0 ? `M ${x.toFixed(2)} ${y.toFixed(2)}` : ` L ${x.toFixed(2)} ${y.toFixed(2)}`;
+        }
+        return `${path} Z`;
+      }
+
+      function renderGenreGrid() {
+        const grid = document.getElementById('genre-grid');
+        if (!grid) return;
+        // Brick pattern: 3 rows (5, 4, 5) with offset for the middle row
+        const rowCounts = [5, 4, 5];
+        // Increase spacing and point size
+        const spacingX = 260, spacingY = 195, r = 38;
+        const padX = 44, padY = 44;
+        const maxCols = Math.max(...rowCounts);
+        const width = (maxCols - 1) * spacingX + 2 * r + padX * 2;
+        // Add extra bottom padding to prevent text cutoff
+        const extraBottom = 36;
+        const height = (rowCounts.length - 1) * spacingY + 2 * r + padY * 2 + extraBottom;
+        let svg = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" style="max-width:98vw;max-height:260px;display:block;margin:auto;">
+        `;
+        let genreIdx = 0;
+        for (let row = 0; row < rowCounts.length; ++row) {
+          const cols = rowCounts[row];
+          // Offset middle row for brick pattern
+          const offset = row === 1 ? spacingX / 2 : 0;
+          for (let col = 0; col < cols; ++col) {
+            if (genreIdx >= GENRE_GRID.length) break;
+            const cx = padX + r + col * spacingX + offset;
+            const cy = padY + r + row * spacingY;
+            let genre = GENRE_GRID[genreIdx];
+            // Remove 'Singer-Songwriter' from genre label
+            let label = genre.label;
+            if (label.includes('Singer-Songwriter')) {
+              label = label.replace(' / Singer-Songwriter', '');
+            }
+            const scribble = createScribblePath(cx, cy, r, `${genre.label}|${genreIdx}`);
+            const outlinePath = createScribbleOutlinePath(cx, cy, r * 0.32, `${genre.label}|${genreIdx}|outline`);
+            // Scale halo and backdrop radii relative to point size (slightly larger)
+            const haloR = r * 1.23, backdropR = r * 0.97, hitR = r * 0.73;
+            const labelOffset = r + 44;
+            svg += `
+              <g class="point-group" data-genre="${genre.label}" style="--genre-color: ${genre.color};">
+                <circle class="point-hover-halo" cx="${cx}" cy="${cy}" r="${haloR}"></circle>
+                <circle class="point-hover-backdrop" cx="${cx}" cy="${cy}" r="${backdropR}"></circle>
+                <path class="genre-scribble" d="${scribble}" style="fill: #02121b; stroke-width: 5;"></path>
+                <path class="genre-outline" d="${outlinePath}" style="fill:none;stroke-width:4;"/>
+                <circle class="point-hit" cx="${cx}" cy="${cy}" r="${hitR}"></circle>
+                <text x="${cx}" y="${cy+labelOffset}" text-anchor="middle" fill="rgba(252, 249, 240, 0.68)" font-size="1.6rem" font-family="inherit">${label.replace(/\n/g, '<tspan x="'+cx+'" dy="1.2em">').replace('<tspan', '</tspan><tspan')}</tspan></text>
+              </g>
+            `;
+            genreIdx++;
+          }
+        }
+        svg += '</svg>';
+        grid.innerHTML = svg;
+        // Add hover effect for genre points
+        grid.querySelectorAll('.point-group').forEach(g => {
+          g.addEventListener('mouseenter', () => {
+            g.classList.add('is-revealed');
+          });
+          g.addEventListener('mouseleave', () => {
+            g.classList.remove('is-revealed');
+          });
+        });
+      }
+      window.addEventListener('DOMContentLoaded', renderGenreGrid);
+      // Replay the slide-in animation for the title on every load and on bfcache restore (back/forward)
+      function playTitleAnimation() {
+        var heroCopy = document.querySelector('.hero-copy');
+        if (heroCopy) {
+          heroCopy.style.opacity = '0';
+          heroCopy.style.animation = 'none';
+          // Force reflow
+          void heroCopy.offsetWidth;
+          heroCopy.style.animation = 'title-slide-down 900ms cubic-bezier(0.22, 1, 0.36, 1) both';
+        }
+      }
+      window.addEventListener('DOMContentLoaded', playTitleAnimation);
+      window.addEventListener('pageshow', playTitleAnimation);
+    </script>
+  </body>
+</html>
