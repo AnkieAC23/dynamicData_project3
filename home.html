@@ -31,15 +31,35 @@
     </header>
     <main class="home-main">
       <div class="home-stack">
-        <div class="home-container home-container-top">
-          <div class="home-btn-title" style="margin-top: 24px; margin-bottom: 18px;">Trending Artists</div>
+        <div class="home-container home-container-top" style="padding: 10px 0 18px 0;">
+          <div class="home-btn-title" style="margin-top: 12px; margin-bottom: 32px;">Trending Artists</div>
+          <div id="top-artists-list" style="margin-bottom: 32px; text-align: center;"></div>
         </div>
-        <div class="home-container home-container-middle">
-          <div class="home-btn-title" style="margin-top: 24px; margin-bottom: 38px;">Placeholder Title</div>
-          <button class="home-btn" style="margin-bottom: 36px; margin-top: 10px;" onclick="window.location.href='index.html'">Enter Project</button>
+        <div class="home-container home-container-middle" style="padding: 54px 0 44px 0;">
+          <div class="home-btn-title" style="margin-top: 36px; margin-bottom: 48px;">Placeholder Title</div>
+          <button class="home-btn" style="margin-bottom: 48px; margin-top: 18px;" onclick="window.location.href='index.html'">Enter Project</button>
         </div>
-        <div class="home-container home-container-bottom">
-          <div class="home-btn-title" style="margin-top: 24px; margin-bottom: 18px;">Discover Artists</div>
+        <div class="home-container home-container-bottom" style="padding: 54px 0 44px 0;">
+          <div class="home-btn-title" style="margin-top: 36px; margin-bottom: 32px;">Discover Artists</div>
+          <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 18px;">
+            <div class="search-bar-wrap" style="display:flex;position:relative;width:680px;max-width:90vw;">
+              <input
+                type="text"
+                class="home-search-bar"
+                id="artist-search-bar"
+                placeholder="Search for an artist..."
+                autocomplete="off"
+                spellcheck="false"
+                aria-label="Search artists"
+                style="flex:1 1 0;width:0;min-width:0;border-radius:18px 0 0 18px;"
+              />
+              <button id="artist-search-btn" class="home-search-btn" aria-label="Search" type="button" style="border-radius:0 18px 18px 0;">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5L20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </div>
+          <div id="artist-search-results" style="width:100%;display:flex;justify-content:center;align-items:flex-start;margin-bottom:10px;"></div>
+          <div class="home-subtitle" style="color: #fcf9f0; font-size: 1.08rem; font-weight: 500; text-align: center; margin-bottom: 32px;">By Genre</div>
           <div id="genre-grid" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
         </div>
       </div>
@@ -47,7 +67,7 @@
     <footer class="home-footer" style="background: rgba(11, 30, 43, 0.95); width: 100vw; padding: 32px 0 24px 0; text-align: center; color: #fff; font-size: 1rem; font-weight: 500; letter-spacing: 0.01em; margin-top: auto;">
       <div style="margin-bottom: 8px; font-size: 1rem;">&copy; 2026 Ankie Chen</div>
       <div class="info-popup-footer-row" style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-align: center; color: #fff; font-size: 1rem;">
-        <span class="info-spotify-text" style="color: #fff; font-size: 1rem;">Images provided by</span>
+        <span class="info-spotify-text" style="color: #fff; font-size: 1rem;">Data provided by</span>
         <a class="info-spotify-credit" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" aria-label="Open Spotify">
           <img src="images/logo.png" alt="Spotify logo" class="info-spotify-logo" style="width: 72px; height: 72px; object-fit: contain;" />
         </a>
@@ -56,6 +76,176 @@
       </div>
     </footer>
     <script>
+
+      // --- Artist Search Functionality ---
+
+      let allArtists = [];
+      let artistCounts = {};
+      let artistImages = {};
+      async function fetchAllArtists() {
+        try {
+          const res = await fetch('/api/artist-counts');
+          const data = await res.json();
+          const rows = Array.isArray(data.rows) ? data.rows : (Array.isArray(data) ? data : []);
+          const counts = {};
+          const images = {};
+          rows.forEach(row => {
+            const artist = String(row.artist || '').trim();
+            if (!artist) return;
+            counts[artist] = row.count || 0;
+            if (row.imageUrl) images[artist] = row.imageUrl;
+          });
+          allArtists = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+          artistCounts = counts;
+          artistImages = images;
+        } catch (e) {
+          allArtists = [];
+          artistCounts = {};
+          artistImages = {};
+        }
+      }
+
+      // Helper: checks if first or last name starts with the full query string
+      function artistNameStartsWith(artist, q) {
+        if (!q) return false;
+        const queryStr = q.toLowerCase();
+        const parts = artist.trim().split(/\s+/);
+        const first = (parts[0] || "").trim().toLowerCase();
+        const last = (parts.length > 1 ? parts[parts.length - 1] : "").trim().toLowerCase();
+        return first.startsWith(queryStr) || last.startsWith(queryStr);
+      }
+
+      function renderArtistSearchResults(matches) {
+        const resultsDiv = document.getElementById('artist-search-results');
+        if (!resultsDiv) return;
+        if (!matches.length) {
+          resultsDiv.innerHTML = '';
+          return;
+        }
+          resultsDiv.innerHTML = `<div class='artist-search-image-grid' style='display:flex;flex-wrap:wrap;gap:18px 22px;justify-content:center;align-items:flex-start;width:100%;background:none;padding:0;box-shadow:none;'>
+          ${matches.map(artist => {
+            const img = artistImages[artist] || '';
+            return `<div class='artist-search-image-item' style='display:flex;flex-direction:column;align-items:center;min-width:60px;max-width:80px;cursor:pointer;background:none;'>
+              <div style='width:48px;height:48px;border-radius:8px;background:#d7dde2;overflow:hidden;display:flex;align-items:center;justify-content:center;'>
+                ${img ? `<img src='${img.replace(/'/g, "&#39;")}' alt='${artist.replace(/'/g, "&#39;")}' style='width:100%;height:100%;object-fit:cover;' />` : `<div style=\"color:#334155;font-size:0.72rem;font-weight:700;\">No image</div>`}
+              </div>
+                <div style='color:#fcf9f0;font-size:0.89rem;font-weight:400;text-align:center;margin-top:7px;word-break:break-word;'>${artist}</div>
+            </div>`;
+          }).join('')}
+        </div>`;
+        // Add click listeners to fill search bar
+        Array.from(resultsDiv.querySelectorAll('.artist-search-image-item')).forEach(item => {
+          item.addEventListener('mousedown', e => {
+            e.preventDefault();
+            const name = item.querySelector('div:last-child').textContent;
+            document.getElementById('artist-search-bar').value = name;
+            resultsDiv.innerHTML = '';
+          });
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        await fetchAllArtists();
+        const searchBar = document.getElementById('artist-search-bar');
+        const resultsDiv = document.getElementById('artist-search-results');
+        if (!searchBar) return;
+        searchBar.addEventListener('input', () => {
+          const q = searchBar.value.trim().toLowerCase();
+          if (!q) {
+            renderArtistSearchResults([]);
+            return;
+          }
+          const matches = allArtists.filter(a => artistNameStartsWith(a, q)).slice(0, 10);
+          renderArtistSearchResults(matches);
+        });
+        // Hide results on blur
+        searchBar.addEventListener('blur', () => {
+          setTimeout(() => { if (resultsDiv) resultsDiv.innerHTML = ''; }, 120);
+        });
+      });
+
+      // --- Top Artists Fetch and Render ---
+
+      async function fetchAndRenderTopArtists() {
+        try {
+          const res = await fetch('/api/responses');
+          const data = await res.json();
+          const rows = Array.isArray(data.rows) ? data.rows : (Array.isArray(data) ? data : []);
+          // Count all artists in Top Artist #1, #2, #3 and keep image URL (prefer #1's image)
+          const artistMap = new Map();
+          rows.forEach(row => {
+            const artistFields = [
+              String(row["Top Artist #1"] || row.artist1 || "").trim(),
+              String(row["Top Artist #2"] || row.artist2 || "").trim(),
+              String(row["Top Artist #3"] || row.artist3 || "").trim()
+            ];
+            const imageUrl = String(row["topArtist1ImageUrl"] || row["Top Artist 1 Image Url"] || row["Top Artist 1 Image URL"] || row["top_artist_1_image_url"] || row["artist1ImageUrl"] || "").trim();
+            artistFields.forEach((artist, idx) => {
+              if (!artist) return;
+              if (!artistMap.has(artist)) {
+                artistMap.set(artist, { count: 1, imageUrl: idx === 0 ? imageUrl : "" });
+              } else {
+                const entry = artistMap.get(artist);
+                entry.count++;
+                // Prefer non-empty imageUrl from #1 if found
+                if (!entry.imageUrl && idx === 0 && imageUrl) entry.imageUrl = imageUrl;
+              }
+            });
+          });
+          // Sort by count desc
+          const sorted = Array.from(artistMap.entries())
+            .sort((a, b) => b[1].count - a[1].count)
+            .slice(0, 3);
+          const container = document.getElementById('top-artists-list');
+          if (!container) return;
+          if (sorted.length === 0) {
+            container.innerHTML = '<span style="color:#aeb6c1;font-size:1.08rem;">No data yet.</span>';
+            return;
+          }
+            // Order: 2, 1, 3
+            const displayOrder = [1, 0, 2];
+            const photoSizes = [140, 200, 140]; // 2nd, 1st, 3rd
+            const borderRadii = [12, 18, 12]; // less rounded
+            const fontSizes = ['1.22rem', '1.38rem', '1.22rem'];
+            const minWidths = [120, 160, 120];
+            const marginBottoms = ['16px', '0', '16px'];
+            // Numbers should match visual order: 2, 1, 3
+            const numberLabels = ['2', '1', '3'];
+            container.innerHTML = `<div style="display:flex;justify-content:center;gap:38px;align-items:flex-end;">
+              ${displayOrder.map((sortedIdx, pos) => {
+                if (!sorted[sortedIdx]) return '';
+                const [artist, { imageUrl }] = sorted[sortedIdx];
+                const photoSize = photoSizes[pos];
+                const borderRadius = borderRadii[pos];
+                const fontSize = fontSizes[pos];
+                const minWidth = minWidths[pos];
+                const marginBottom = marginBottoms[pos];
+                const number = numberLabels[pos];
+                return `<div style=\"display:flex;flex-direction:column;align-items:center;min-width:${minWidth}px;margin-bottom:${marginBottom};\">
+                  <div style=\"width:${photoSize}px;height:${photoSize}px;border-radius:${borderRadius}px;background:none;overflow:hidden;box-shadow:none;margin-bottom:14px;display:flex;align-items:center;justify-content:center;\">
+                    ${imageUrl ? `<img src=\"${escapeHtml(imageUrl)}\" alt=\"${escapeHtml(artist)}\" style=\"width:100%;height:100%;object-fit:cover;\" />` : `<div style=\\\"color:#334155;font-size:0.92rem;font-weight:700;\\\">No image</div>`}
+                  </div>
+                  <div style="color:#fcf9f0;font-size:${fontSize};font-weight:600;text-align:center;word-break:break-word;display:flex;align-items:center;justify-content:center;gap:6px;">
+                    <span style=\"font-size:0.92em;font-weight:700;vertical-align:middle;opacity:0.82;\">${number}</span><span>${escapeHtml(artist)}</span>
+                  </div>
+                </div>`;
+              }).join('')}
+            </div>`;
+        } catch (e) {
+          const container = document.getElementById('top-artists-list');
+          if (container) container.innerHTML = '<span style="color:#aeb6c1;font-size:1.08rem;">Unable to load data.</span>';
+        }
+      }
+      // Escape HTML utility
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#039;');
+      }
+      window.addEventListener('DOMContentLoaded', fetchAndRenderTopArtists);
 
       // --- Genre grid rendering for home page bottom container ---
       const GENRE_GRID = [
@@ -128,8 +318,8 @@
         if (!grid) return;
         // Brick pattern: 3 rows (5, 4, 5) with offset for the middle row
         const rowCounts = [5, 4, 5];
-        // Increase spacing and point size
-        const spacingX = 260, spacingY = 195, r = 38;
+        // Increase spacing and point size (slightly larger)
+        const spacingX = 260, spacingY = 195, r = 43;
         const padX = 44, padY = 44;
         const maxCols = Math.max(...rowCounts);
         const width = (maxCols - 1) * spacingX + 2 * r + padX * 2;
@@ -163,7 +353,7 @@
                 <circle class="point-hover-halo" cx="${cx}" cy="${cy}" r="${haloR}"></circle>
                 <circle class="point-hover-backdrop" cx="${cx}" cy="${cy}" r="${backdropR}"></circle>
                 <path class="genre-scribble" d="${scribble}" style="fill: #02121b; stroke-width: 5;"></path>
-                <path class="genre-outline" d="${outlinePath}" style="fill:none;stroke-width:4;"/>
+                <path class="genre-outline" d="${outlinePath}" style="fill:none;stroke-width:5;"/>
                 <circle class="point-hit" cx="${cx}" cy="${cy}" r="${hitR}"></circle>
                 <text x="${cx}" y="${cy+labelOffset}" text-anchor="middle" fill="rgba(252, 249, 240, 0.68)" font-size="1.6rem" font-family="inherit">${label.replace(/\n/g, '<tspan x="'+cx+'" dy="1.2em">').replace('<tspan', '</tspan><tspan')}</tspan></text>
               </g>

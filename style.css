@@ -1,3 +1,91 @@
+/* Unified hover/focus for search bar and button */
+.search-bar-wrap:focus-within .home-search-bar,
+.search-bar-wrap:hover .home-search-bar {
+  background: #fcf9f0;
+  color: #0f172a;
+  box-shadow: none;
+}
+.search-bar-wrap:focus-within .home-search-btn,
+.search-bar-wrap:hover .home-search-btn {
+  background: #fcf9f0;
+  color: #0f172a;
+  box-shadow: none;
+}
+.home-search-bar:focus,
+.home-search-bar:hover,
+.home-search-btn:focus,
+.home-search-btn:hover {
+  /* Remove individual hover/focus so only parent triggers */
+  background: inherit;
+  color: inherit;
+  box-shadow: inherit;
+}
+/* Unified search bar and button styles */
+.search-bar-wrap {
+  display: flex;
+  position: relative;
+  width: 680px;
+  max-width: 90vw;
+}
+.home-search-bar {
+  border-radius: 18px 0 0 18px !important;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background: rgba(252,249,240,0.10);
+  color: #fcf9f0;
+  font-size: 1.13rem;
+  font-family: inherit;
+  font-weight: 500;
+  padding: 16px 18px;
+  transition: background 140ms, color 140ms, box-shadow 140ms;
+}
+.home-search-bar:focus,
+.home-search-bar:hover {
+  background: #fcf9f0;
+  color: #0f172a;
+  box-shadow: none;
+}
+.home-search-btn {
+  border: none;
+  outline: none;
+  background: rgba(252,249,240,0.10);
+  color: #fcf9f0;
+  font-size: 1.13rem;
+  font-family: inherit;
+  font-weight: 700;
+  padding: 0 22px;
+  cursor: pointer;
+  border-radius: 0 18px 18px 0;
+  box-shadow: none;
+  transition: background 140ms, color 140ms, box-shadow 140ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-search-btn:focus,
+.home-search-btn:hover {
+  background: #fcf9f0;
+  color: #0f172a;
+  box-shadow: none;
+}
+.artist-search-result-item:hover,
+.artist-search-result-item:focus {
+  background: #e6e6e6;
+}
+/* Home search bar active/hover/focus effects */
+.home-search-bar {
+  background: rgba(252,249,240,0.10);
+  color: #fcf9f0;
+  transition: background 140ms, color 140ms, box-shadow 140ms;
+}
+.home-search-bar:focus,
+.home-search-bar:hover {
+  background: #fcf9f0;
+  color: #0f172a;
+  box-shadow: 0 5px 16px rgba(2, 6, 23, 0.28);
+}
+
 /* Genre label text: white on hover, no glow */
 .point-group.is-revealed text {
   fill: #fcf9f0 !important;
@@ -105,7 +193,7 @@ body.home-body {
   line-height: 1.2;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(2, 6, 23, 0.25);
-  z-index: 22;
+  /* z-index removed to prevent overlap with title */
   transform: translateX(0);
   transition: transform 150ms ease, box-shadow 150ms ease, background 140ms, color 140ms;
 }

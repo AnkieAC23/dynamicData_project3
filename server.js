@@ -1,12 +1,14 @@
+
 const http = require("http");
 const fs = require("fs/promises");
 const path = require("path");
 require("dotenv").config();
+const artistCountsHandler = require("./api/artistCounts.js");
 
 const PORT = Number(process.env.PORT || 3000);
 const APPS_SCRIPT_URL =
   process.env.APPS_SCRIPT_URL ||
-  "https://script.google.com/macros/s/AKfycbzhmkAAjRckw8Wr-Q_UnyTMPvUvAzQv-dp00fpH9ury8h1W--tBZs5lIw5n2Dg7Hy6glQ/exec";
+  "https://script.google.com/macros/s/AKfycbzHuV4RXTbN5hy_tX7CEukt_r1fndTnuDRrKaiOd67n0PdtvISL2vwfddhcWKxGY5M8iw/exec";
 
 const FIELD_DEFS = [
   {
@@ -129,15 +131,25 @@ function getRows(payload) {
   if (Array.isArray(payload)) {
     return payload;
   }
-
   if (payload && Array.isArray(payload.rows)) {
     return payload.rows;
   }
-
   if (payload && Array.isArray(payload.data)) {
     return payload.data;
   }
-
+  if (payload && Array.isArray(payload.processedData)) {
+    // If the first row is headers, convert to array of objects
+    const arr = payload.processedData;
+    if (arr.length > 1 && Array.isArray(arr[0])) {
+      const headers = arr[0].map(h => String(h).trim());
+      return arr.slice(1).map(row => {
+        const obj = {};
+        headers.forEach((h, i) => { obj[h] = row[i]; });
+        return obj;
+      });
+    }
+    return arr;
+  }
   return [];
 }
 
@@ -305,11 +317,18 @@ const server = http.createServer((request, response) => {
     return;
   }
 
+
   if (request.method === "GET" && request.url.startsWith("/api/responses")) {
     handleApi(response);
     return;
   }
 
+
+  if (request.method === "GET" && request.url.startsWith("/api/artist-counts")) {
+    artistCountsHandler(request, response);
+    return;
+  }
+  
   if (request.method === "GET" && request.url.startsWith("/api/debug/keys")) {
     handleApiDebug(response);
     return;
