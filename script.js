@@ -1876,3 +1876,87 @@ async function fetchAndRender() {
 
 fetchAndRender();
 setInterval(fetchAndRender, POLL_INTERVAL_MS);
+
+// --- ARTIST PROFILE POPUP LOGIC ---
+const artistProfilePanel = document.getElementById('artistProfilePanel');
+const artistProfileClose = document.getElementById('artistProfileClose');
+const artistProfileName = document.getElementById('artistProfileName');
+const artistProfileImage = document.getElementById('artistProfileImage');
+const artistProfileGenres = document.getElementById('artistProfileGenres');
+const artistProfileCount = document.getElementById('artistProfileCount');
+const artistProfileSpotify = document.getElementById('artistProfileSpotify');
+
+function openArtistProfilePopup(artistData) {
+  if (!artistProfilePanel) return;
+  artistProfileName.textContent = artistData.artist || 'Unknown Artist';
+  if (artistData.imageUrl) {
+    artistProfileImage.src = artistData.imageUrl;
+    artistProfileImage.style.display = '';
+  } else {
+    artistProfileImage.style.display = 'none';
+  }
+  artistProfileGenres.textContent = artistData.genres ? `Genres: ${artistData.genres}` : '';
+  artistProfileCount.textContent = artistData.count ? `Connections: ${artistData.count}` : '';
+  if (artistData.spotifyUrl) {
+    artistProfileSpotify.href = artistData.spotifyUrl;
+    artistProfileSpotify.style.display = '';
+  } else {
+    artistProfileSpotify.style.display = 'none';
+  }
+  artistProfilePanel.classList.add('is-open');
+  artistProfilePanel.setAttribute('aria-hidden', 'false');
+}
+
+function closeArtistProfilePopup() {
+  if (!artistProfilePanel) return;
+  artistProfilePanel.classList.remove('is-open');
+  artistProfilePanel.setAttribute('aria-hidden', 'true');
+}
+
+if (artistProfileClose) {
+  artistProfileClose.addEventListener('click', closeArtistProfilePopup);
+}
+if (artistProfilePanel) {
+  artistProfilePanel.addEventListener('click', (event) => {
+    if (event.target === artistProfilePanel) {
+      closeArtistProfilePopup();
+    }
+  });
+}
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && artistProfilePanel?.classList.contains('is-open')) {
+    closeArtistProfilePopup();
+  }
+});
+
+// --- PREDICTIVE SEARCH SUGGESTIONS ON FOCUS ---
+const searchInput = document.querySelector('.home-search-bar, #searchInput');
+const searchDropdown = document.querySelector('.artist-search-dropdown, #searchDropdown');
+if (searchInput && searchDropdown) {
+  searchInput.addEventListener('focus', () => {
+    searchDropdown.style.display = '';
+  });
+  searchInput.addEventListener('blur', () => {
+    setTimeout(() => { searchDropdown.style.display = 'none'; }, 150);
+  });
+}
+
+// --- ENHANCED ARTIST SEARCH RESULT CLICK HANDLER ---
+// This should be called after rendering predictive search results
+function attachArtistSearchResultHandlers(artistRows) {
+  const items = document.querySelectorAll('.artist-search-result-item');
+  items.forEach((item) => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const artistName = item.dataset.artistName || item.textContent.trim();
+      const artist = artistRows.find(a => a.artist === artistName);
+      if (artist) {
+        openArtistProfilePopup(artist);
+      }
+    });
+  });
+}
+// After rendering your predictive search results, call:
+// attachArtistSearchResultHandlers(artistRows);
+// where artistRows is your array of artist data objects.

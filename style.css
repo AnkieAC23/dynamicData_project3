@@ -256,6 +256,48 @@ body.home-body {
   filter: brightness(0) saturate(100%) invert(92%) sepia(7%) saturate(0%) hue-rotate(180deg) brightness(90%) contrast(90%);
   color: rgba(252, 249, 240, 0.68);
 }
+
+.home-nav-btn {
+  position: fixed;
+  left: 0;
+  top: 16px;
+  z-index: 30;
+  border: none;
+  outline: none;
+  border-radius: 0 12px 12px 0;
+  width: 150px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(252, 249, 240, 0.14), rgba(252, 249, 240, 0.14)), #02121b;
+  color: rgba(252, 249, 240, 0.68);
+  box-shadow: 0 2px 8px rgba(2, 6, 23, 0.25);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: width 150ms ease, box-shadow 150ms ease, background 140ms, color 140ms;
+}
+
+.home-nav-btn:hover {
+  background: #fcf9f0;
+  color: #0f172a;
+  width: 162px;
+  box-shadow: 0 5px 16px rgba(2, 6, 23, 0.28);
+}
+
+.home-nav-btn:active {
+  width: 156px;
+}
+
+.home-nav-btn:focus-visible {
+  outline: none;
+}
+
+body.home-nav-open .hero-copy {
+  z-index: 20;
+}
 /* Right controls stacking */
 .right-controls {
   position: fixed;
@@ -347,7 +389,7 @@ body {
   transform: translateX(-50%, 0);
   width: max-content;
   text-align: center;
-  z-index: 100;
+  z-index: 20;
   opacity: 0;
   animation: none;
   background: none;
@@ -1351,8 +1393,7 @@ body.symbol-open #legendToggle {
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(2, 6, 23, 0.25);
   z-index: 22;
-  transform: translateX(0);
-  transition: transform 150ms ease, box-shadow 150ms ease;
+  transition: width 150ms ease, box-shadow 150ms ease, background 140ms, color 140ms;
 }
 
 .info-btn span:last-child {
@@ -1363,12 +1404,12 @@ body.symbol-open #legendToggle {
 .info-btn:hover {
   background: #fcf9f0;
   color: #0f172a;
-  transform: translateX(-12px);
+  width: 182px;
   box-shadow: 0 5px 16px rgba(2, 6, 23, 0.28);
 }
 
 .info-btn:active {
-  transform: translateX(-7px);
+  width: 176px;
 }
 
 .entry-btn {
@@ -1486,6 +1527,21 @@ body.symbol-open #legendToggle {
     font-size: 0.72rem;
   }
 
+  .home-nav-btn {
+    top: 12px;
+    width: 130px;
+    padding: 8px 10px;
+    font-size: 0.72rem;
+  }
+
+  .home-nav-btn:hover {
+    width: 142px;
+  }
+
+  .home-nav-btn:active {
+    width: 136px;
+  }
+
   .zoom-controls {
     left: 12px;
     bottom: 12px;
@@ -1529,6 +1585,17 @@ body.symbol-open #legendToggle {
     margin: 0;
     position: relative;
     right: 0;
+    transition: width 150ms ease, box-shadow 150ms ease, background 140ms, color 140ms;
+  }
+
+  .info-btn:hover,
+  .entry-btn:hover {
+    width: 142px;
+  }
+
+  .info-btn:active,
+  .entry-btn:active {
+    width: 136px;
   }
 
   .zoom-slider-wrap {

@@ -19,6 +19,147 @@
           transform: translateY(0);
         }
       }
+
+      /* Middle container hover decor */
+      .home-container-middle {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .home-container-top {
+        position: relative;
+        overflow: visible;
+      }
+
+      body.home-body .hero-copy {
+        position: absolute;
+      }
+
+      .home-container-top::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -150px;
+        bottom: -150px;
+        background: radial-gradient(
+          ellipse at center 41%,
+          rgba(252, 249, 240, 0) 42%,
+          rgba(252, 249, 240, 0.055) 72%,
+          rgba(252, 249, 240, 0.13) 100%
+        );
+        filter: blur(18px);
+        pointer-events: none;
+      }
+
+      .home-container-top > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .home-container-middle .home-btn-title {
+        position: relative;
+        z-index: 5;
+      }
+
+      .home-container-middle .home-btn {
+        position: relative;
+        z-index: 4;
+        background: #fcf9f0;
+        color: #0f172a;
+        box-shadow: 0 5px 16px rgba(2, 6, 23, 0.28);
+      }
+
+      .home-container-middle .home-btn:hover {
+        box-shadow: 0 0 0 2px rgba(252, 249, 240, 0.1), 0 0 22px rgba(252, 249, 240, 0.62);
+        transform: translateY(-1px);
+      }
+
+      .middle-connection-decor {
+        position: absolute;
+        left: 50%;
+        top: 48px;
+        width: 100vw;
+        height: 300px;
+        transform: translateX(-50%);
+        opacity: 1;
+        transition: opacity 180ms ease;
+        z-index: 2;
+      }
+
+      .middle-connection-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .middle-connection-decor .link-group {
+        cursor: pointer;
+      }
+
+      .artist-image-frame {
+        border: 1.5px solid rgba(11, 30, 43, 0.95);
+        box-shadow: none;
+        outline: none;
+        background: #d7dde2;
+        transition: box-shadow 160ms ease, transform 160ms ease;
+      }
+
+      .artist-image-frame img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 0;
+        outline: none;
+      }
+
+      .artist-search-image-item:hover .artist-image-frame,
+      .artist-search-image-item:focus-within .artist-image-frame,
+      .trending-artist-item:hover .artist-image-frame,
+      .trending-artist-item:focus-within .artist-image-frame {
+        box-shadow: 0 0 0 2px rgba(252, 249, 240, 0.1), 0 0 22px rgba(252, 249, 240, 0.62);
+        transform: translateY(-1px);
+      }
+
+      .trending-artist-item {
+        cursor: pointer;
+      }
+
+      .trending-artist-item.is-top-artist .artist-image-frame {
+        box-shadow: 0 0 0 1px rgba(252, 249, 240, 0.08), 0 0 12px rgba(252, 249, 240, 0.3);
+      }
+
+      .trending-artist-item.is-top-artist:hover .artist-image-frame,
+      .trending-artist-item.is-top-artist:focus-within .artist-image-frame {
+        box-shadow: 0 0 0 2px rgba(252, 249, 240, 0.1), 0 0 22px rgba(252, 249, 240, 0.62);
+      }
+
+      .trending-artist-item > div:last-child {
+        line-height: 1.12;
+      }
+
+      .trending-artist-item > div:last-child > span:first-child {
+        color: rgba(252, 249, 240, 0.68) !important;
+        opacity: 1;
+        font-size: 0.78em !important;
+      }
+
+      .trending-artist-item > div:last-child > span:last-child {
+        font-size: 0.74em;
+      }
+
+      .artist-search-results-shell {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.99);
+        transition: opacity 240ms ease, transform 240ms ease;
+        will-change: opacity, transform;
+      }
+
+      .artist-search-results-shell.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     </style>
   </head>
   <body class="home-body">
@@ -36,8 +177,32 @@
           <div id="top-artists-list" style="margin-bottom: 32px; text-align: center;"></div>
         </div>
         <div class="home-container home-container-middle" style="padding: 54px 0 44px 0;">
-          <div class="home-btn-title" style="margin-top: 36px; margin-bottom: 48px;">Placeholder Title</div>
-          <button class="home-btn" style="margin-bottom: 48px; margin-top: 18px;" onclick="window.location.href='index.html'">Enter Project</button>
+          <div class="home-btn-title" style="margin-top: 36px; margin-bottom: 48px;">The Connection Network</div>
+          <div class="middle-connection-decor" aria-hidden="true">
+            <svg class="middle-connection-svg" viewBox="0 0 1600 320" preserveAspectRatio="none">
+              <g class="link-group middle-connection-link-group" data-hover-text="Go find your connections" data-start="0" data-start-y="24" data-end="1600" data-end-y="270" data-drop="56" data-sway="74" data-dir="1" data-seed="1">
+                <path class="link-line-scribble" d="" />
+                <path class="link-hit" d="" />
+              </g>
+              <g class="link-group middle-connection-link-group" data-hover-text="A connection awaits" data-start="0" data-start-y="248" data-end="1600" data-end-y="136" data-drop="54" data-sway="72" data-dir="-1" data-seed="2">
+                <path class="link-line-scribble" d="" />
+                <path class="link-hit" d="" />
+              </g>
+              <g class="link-group middle-connection-link-group" data-hover-text="Go find your connections" data-start="0" data-start-y="86" data-end="1600" data-end-y="214" data-drop="46" data-sway="64" data-dir="-1" data-seed="3">
+                <path class="link-line-scribble" d="" />
+                <path class="link-hit" d="" />
+              </g>
+              <g class="link-group middle-connection-link-group" data-hover-text="Find the path between us" data-start="0" data-start-y="196" data-end="1600" data-end-y="68" data-drop="60" data-sway="76" data-dir="1" data-seed="4">
+                <path class="link-line-scribble" d="" />
+                <path class="link-hit" d="" />
+              </g>
+              <g class="link-group middle-connection-link-group" data-hover-text="Find the path between us" data-start="0" data-start-y="148" data-end="1600" data-end-y="184" data-drop="50" data-sway="68" data-dir="-1" data-seed="5">
+                <path class="link-line-scribble" d="" />
+                <path class="link-hit" d="" />
+              </g>
+            </svg>
+          </div>
+          <button class="home-btn" style="margin-bottom: 48px; margin-top: 18px;" onclick="window.location.href='index.html'">Enter Network!</button>
         </div>
         <div class="home-container home-container-bottom" style="padding: 54px 0 44px 0;">
           <div class="home-btn-title" style="margin-top: 36px; margin-bottom: 32px;">Discover Artists</div>
@@ -58,8 +223,8 @@
               </button>
             </div>
           </div>
-          <div id="artist-search-results" style="width:100%;display:flex;justify-content:center;align-items:flex-start;margin-bottom:10px;"></div>
-          <div class="home-subtitle" style="color: #fcf9f0; font-size: 1.08rem; font-weight: 500; text-align: center; margin-bottom: 32px;">By Genre</div>
+          <div id="artist-search-results" class="artist-search-results-shell" style="width:100%;display:flex;justify-content:center;align-items:flex-start;margin-bottom:10px;"></div>
+          <div class="home-subtitle" style="color: rgba(252, 249, 240, 0.68); font-size: 1.08rem; font-weight: 500; text-align: center; margin-top: 56px; margin-bottom: 32px;">By Genre</div>
           <div id="genre-grid" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
         </div>
       </div>
@@ -69,12 +234,36 @@
       <div class="info-popup-footer-row" style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-align: center; color: #fff; font-size: 1rem;">
         <span class="info-spotify-text" style="color: #fff; font-size: 1rem;">Data provided by</span>
         <a class="info-spotify-credit" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" aria-label="Open Spotify">
-          <img src="images/logo.png" alt="Spotify logo" class="info-spotify-logo" style="width: 72px; height: 72px; object-fit: contain;" />
+          <img src="images/logo2.png" alt="Spotify logo" class="info-spotify-logo" style="width: 72px; height: 72px; object-fit: contain;" />
         </a>
         <span class="info-footer-dot" aria-hidden="true" style="color: #fff; font-size: 1rem;">•</span>
         <p class="info-project-note" style="margin: 0; color: #fff; font-size: 1rem; font-weight: 500;">Student project for VDES39915</p>
       </div>
     </footer>
+
+    <div id="artistProfilePanel" class="entry-popup" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Artist Profile">
+      <div class="entry-popup-card" style="width:min(760px, calc(100vw - 24px)); height:auto; min-height:420px; grid-template-rows:auto auto 1fr;">
+        <div class="entry-popup-header">
+          <h2 class="entry-popup-title" id="artistProfileName">Artist Name</h2>
+          <button id="artistProfileClose" class="entry-popup-close" type="button" aria-label="Close artist profile">X</button>
+        </div>
+        <p id="artistProfileSubtitle" style="margin:0 0 2px 0; color:#475569; font-size:0.95rem;">Artist profile</p>
+        <div style="position:relative; min-height:0; border-radius:12px; overflow:hidden; border:1px solid rgba(15, 23, 42, 0.12); background:#ffffff; padding:18px;">
+          <div style="display:grid; grid-template-columns:120px 1fr; gap:16px; align-items:start;">
+            <img id="artistProfileImage" src="" alt="Artist image" style="display:none; width:120px; height:120px; object-fit:cover; border-radius:12px; background:#d7dde2;" />
+            <div>
+              <p id="artistProfileGenres" style="margin:0 0 8px 0; color:#0f172a; font-size:0.95rem;"></p>
+              <p id="artistProfileCount" style="margin:0 0 8px 0; color:#0f172a; font-size:0.95rem;"></p>
+              <p id="artistProfileAbout" style="margin:0 0 12px 0; color:#334155; font-size:0.92rem; line-height:1.45;"></p>
+              <a id="artistProfileSpotify" href="#" target="_blank" rel="noopener" style="display:none; text-decoration:none; background:#1db954; color:#ffffff; padding:8px 14px; border-radius:999px; font-weight:700; font-size:0.9rem;">View on Spotify</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="middleLineTooltip" class="line-hover-tooltip is-hidden" aria-hidden="true"></div>
+
     <script>
 
       // --- Artist Search Functionality ---
@@ -82,6 +271,235 @@
       let allArtists = [];
       let artistCounts = {};
       let artistImages = {};
+      let artistDetails = {};
+      let genreArtistMap = {};
+      let genreDetailOpen = false;
+      const SUGGESTED_ARTISTS_MAX = 8;
+      const SEARCH_MATCHES_MAX = 24;
+      const middleLineTooltip = document.getElementById('middleLineTooltip');
+
+      const artistProfilePanel = document.getElementById('artistProfilePanel');
+      const artistProfileClose = document.getElementById('artistProfileClose');
+      const artistProfileName = document.getElementById('artistProfileName');
+      const artistProfileSubtitle = document.getElementById('artistProfileSubtitle');
+      const artistProfileImage = document.getElementById('artistProfileImage');
+      const artistProfileGenres = document.getElementById('artistProfileGenres');
+      const artistProfileCount = document.getElementById('artistProfileCount');
+      const artistProfileAbout = document.getElementById('artistProfileAbout');
+      const artistProfileSpotify = document.getElementById('artistProfileSpotify');
+
+      function openArtistProfilePopup(artistName) {
+        if (!artistProfilePanel) return;
+        const detail = artistDetails[artistName] || {};
+        const imageUrl = String(detail.imageUrl || '').trim();
+        const spotifyUrl = String(detail.spotifyUrl || '').trim();
+        const genres = String(detail.genres || '').trim();
+        const count = Number(detail.count) || 0;
+
+        if (artistProfileName) artistProfileName.textContent = artistName || 'Unknown Artist';
+        if (artistProfileSubtitle) {
+          artistProfileSubtitle.textContent = 'Artist profile';
+        }
+
+        if (artistProfileImage) {
+          if (imageUrl) {
+            artistProfileImage.src = imageUrl;
+            artistProfileImage.style.display = '';
+          } else {
+            artistProfileImage.style.display = 'none';
+          }
+        }
+
+        if (artistProfileGenres) {
+          artistProfileGenres.textContent = genres ? `Genres: ${genres}` : 'Genres: Placeholder genre';
+        }
+
+        if (artistProfileCount) {
+          artistProfileCount.textContent = `Mentions: ${count}`;
+        }
+
+        if (artistProfileAbout) {
+          artistProfileAbout.textContent =
+            'This is placeholder profile text for now. Artist details can be expanded later with biography, top songs, and collaboration insights.';
+        }
+
+        if (artistProfileSpotify) {
+          if (spotifyUrl) {
+            artistProfileSpotify.href = spotifyUrl;
+            artistProfileSpotify.style.display = '';
+          } else {
+            artistProfileSpotify.style.display = 'none';
+          }
+        }
+
+        artistProfilePanel.classList.add('is-open');
+        artistProfilePanel.setAttribute('aria-hidden', 'false');
+      }
+
+      function closeArtistProfilePopup() {
+        if (!artistProfilePanel) return;
+        artistProfilePanel.classList.remove('is-open');
+        artistProfilePanel.setAttribute('aria-hidden', 'true');
+      }
+
+      function normalizeKey(value) {
+        return String(value || '')
+          .toLowerCase()
+          .replace(/[^a-z0-9]/g, '');
+      }
+
+      function canonicalGenreLabel(rawGenre) {
+        const genre = String(rawGenre || '').trim();
+        if (!genre) return 'Other';
+        const norm = normalizeKey(genre);
+
+        const aliasMap = {
+          folkindie: 'Folk / Singer-Songwriter / Indie',
+          folksingersongwriterindie: 'Folk / Singer-Songwriter / Indie',
+          rbsoul: 'R&B / Soul',
+          hiphoprap: 'Hip-hop / Rap',
+          electronicdance: 'Electronic / Dance',
+          jazzblues: 'Jazz / Blues',
+          kpop: 'K-pop',
+        };
+
+        if (aliasMap[norm]) {
+          return aliasMap[norm];
+        }
+
+        const found = GENRE_GRID.find((item) => normalizeKey(item.label) === norm);
+        return found ? found.label : 'Other';
+      }
+
+      function buildGenreArtistMap() {
+        const map = {};
+        GENRE_GRID.forEach((item) => {
+          map[item.label] = [];
+        });
+
+        Object.keys(artistDetails).forEach((artistName) => {
+          const detail = artistDetails[artistName] || {};
+          const genreLabel = canonicalGenreLabel(detail.genres);
+          if (!map[genreLabel]) {
+            map[genreLabel] = [];
+          }
+          map[genreLabel].push(artistName);
+        });
+
+        Object.keys(map).forEach((genreLabel) => {
+          map[genreLabel].sort((a, b) =>
+            String(a || '').localeCompare(String(b || ''), undefined, { sensitivity: 'base' })
+          );
+        });
+
+        genreArtistMap = map;
+      }
+
+      function closeGenreArtistsPopup() {
+        if (!genreDetailOpen) return;
+        genreDetailOpen = false;
+        renderGenreGrid();
+      }
+
+      function bindArtistTileClickHandlers(rootEl) {
+        if (!rootEl) return;
+        Array.from(rootEl.querySelectorAll('.artist-search-image-item')).forEach((item) => {
+          item.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+          });
+          item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const name = String(item.getAttribute('data-artist') || '').trim();
+            openArtistProfilePopup(name);
+          });
+        });
+      }
+
+      function openGenreArtistsPopup(genreLabel) {
+        const genreGrid = document.getElementById('genre-grid');
+        if (!genreGrid) return;
+
+        const artists = Array.isArray(genreArtistMap[genreLabel]) ? genreArtistMap[genreLabel] : [];
+        genreDetailOpen = true;
+
+        if (!artists.length) {
+          genreGrid.innerHTML = `
+            <div style="width:min(980px, 96vw); margin:0 auto;">
+              <div style="position:relative; margin-bottom:12px; text-align:center; min-height:30px;">
+                <h3 style="margin:0; color:#fcf9f0; font-size:1.35rem; font-weight:700;">${genreLabel}</h3>
+                <button id="genreArtistsInlineClose" type="button" style="position:absolute; right:0; top:0; border:none; outline:none; width:30px; height:30px; border-radius:999px; background:rgba(252,249,240,0.14); color:#fcf9f0; font-size:0.9rem; font-weight:800; cursor:pointer;">X</button>
+              </div>
+              <p style="margin:0 0 14px 0; color:#b8cad4; text-align:center;">No artists found for this genre yet.</p>
+            </div>
+          `;
+        } else {
+          const rows = [];
+          let cursor = 0;
+          let useEight = true;
+          while (cursor < artists.length) {
+            const rowSize = useEight ? 8 : 7;
+            rows.push(artists.slice(cursor, cursor + rowSize));
+            cursor += rowSize;
+            useEight = !useEight;
+          }
+
+          genreGrid.innerHTML = `
+            <div style="width:min(980px, 96vw); margin:0 auto;">
+              <div style="position:relative; margin-bottom:6px; text-align:center; min-height:30px;">
+                <h3 style="margin:0; color:#fcf9f0; font-size:1.35rem; font-weight:700;">${genreLabel}</h3>
+                <button id="genreArtistsInlineClose" type="button" style="position:absolute; right:0; top:0; border:none; outline:none; width:30px; height:30px; border-radius:999px; background:rgba(252,249,240,0.14); color:#fcf9f0; font-size:0.9rem; font-weight:800; cursor:pointer;">X</button>
+              </div>
+              <p style="margin:0 0 14px 0; color:#b8cad4; text-align:center;">${artists.length} artist${artists.length === 1 ? '' : 's'} in this genre</p>
+              <div class='artist-search-image-grid' style='display:flex;flex-direction:column;gap:18px;width:100%;background:none;padding:0;box-shadow:none;'>
+                ${rows
+                  .map(
+                    (row) => `<div style='display:flex;flex-wrap:nowrap;gap:18px 22px;justify-content:center;align-items:flex-start;width:100%;'>
+                      ${row
+                        .map((artist) => {
+                          const img = artistImages[artist] || '';
+                          return `<div class='artist-search-image-item' data-artist='${artist.replace(/'/g, '&#39;')}' style='display:flex;flex-direction:column;align-items:center;width:96px;flex:0 0 96px;cursor:pointer;background:none;'>
+                            <div class='artist-image-frame' style='width:56px;height:56px;border-radius:10px;background:#d7dde2;overflow:hidden;display:flex;align-items:center;justify-content:center;'>
+                              ${img ? `<img src='${img.replace(/'/g, '&#39;')}' alt='${artist.replace(/'/g, '&#39;')}' style='width:100%;height:100%;object-fit:cover;' />` : `<div style=\"color:#334155;font-size:0.72rem;font-weight:700;\">No image</div>`}
+                            </div>
+                            <div style='color:#fcf9f0;font-size:0.82rem;font-weight:400;text-align:center;margin-top:7px;word-break:break-word;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;line-height:1.2;max-height:2.4em;'>${artist}</div>
+                          </div>`;
+                        })
+                        .join('')}
+                    </div>`
+                  )
+                  .join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        const closeBtn = document.getElementById('genreArtistsInlineClose');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', closeGenreArtistsPopup);
+        }
+
+        bindArtistTileClickHandlers(genreGrid);
+      }
+
+      if (artistProfileClose) {
+        artistProfileClose.addEventListener('click', closeArtistProfilePopup);
+      }
+
+      if (artistProfilePanel) {
+        artistProfilePanel.addEventListener('click', (event) => {
+          if (event.target === artistProfilePanel) {
+            closeArtistProfilePopup();
+          }
+        });
+      }
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeGenreArtistsPopup();
+          closeArtistProfilePopup();
+        }
+      });
+
       async function fetchAllArtists() {
         try {
           const res = await fetch('/api/artist-counts');
@@ -94,51 +512,93 @@
             if (!artist) return;
             counts[artist] = row.count || 0;
             if (row.imageUrl) images[artist] = row.imageUrl;
+            artistDetails[artist] = {
+              artist,
+              count: Number(row.count) || 0,
+              imageUrl: String(row.imageUrl || '').trim(),
+              spotifyUrl: String(row.spotifyUrl || '').trim(),
+              genres: String(row.genres || '').trim(),
+            };
           });
           allArtists = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
           artistCounts = counts;
           artistImages = images;
+          buildGenreArtistMap();
         } catch (e) {
           allArtists = [];
           artistCounts = {};
           artistImages = {};
+          artistDetails = {};
+          genreArtistMap = {};
         }
       }
 
-      // Helper: checks if first or last name starts with the full query string
-      function artistNameStartsWith(artist, q) {
-        if (!q) return false;
-        const queryStr = q.toLowerCase();
-        const parts = artist.trim().split(/\s+/);
-        const first = (parts[0] || "").trim().toLowerCase();
-        const last = (parts.length > 1 ? parts[parts.length - 1] : "").trim().toLowerCase();
-        return first.startsWith(queryStr) || last.startsWith(queryStr);
+      // Multi-word matching that supports queries like "the oh" and "tate mc"
+      function artistMatchesQuery(artist, q) {
+        const artistName = String(artist || '').trim().toLowerCase();
+        const query = String(q || '').trim().toLowerCase();
+        if (!query) return false;
+
+        const artistWords = artistName.split(/\s+/).filter(Boolean);
+        const queryWords = query.split(/\s+/).filter(Boolean);
+        if (!queryWords.length) return false;
+
+        let fromIndex = 0;
+        for (let i = 0; i < queryWords.length; i += 1) {
+          const token = queryWords[i];
+          let foundAt = -1;
+          for (let j = fromIndex; j < artistWords.length; j += 1) {
+            if (artistWords[j].startsWith(token)) {
+              foundAt = j;
+              break;
+            }
+          }
+          if (foundAt === -1) {
+            return false;
+          }
+          fromIndex = foundAt + 1;
+        }
+        return true;
       }
 
-      function renderArtistSearchResults(matches) {
+      function renderArtistSearchResults(matches, options = {}) {
+        const { heading = '' } = options;
         const resultsDiv = document.getElementById('artist-search-results');
         if (!resultsDiv) return;
         if (!matches.length) {
           resultsDiv.innerHTML = '';
+          resultsDiv.classList.remove('is-visible');
           return;
         }
-          resultsDiv.innerHTML = `<div class='artist-search-image-grid' style='display:flex;flex-wrap:wrap;gap:18px 22px;justify-content:center;align-items:flex-start;width:100%;background:none;padding:0;box-shadow:none;'>
+        resultsDiv.classList.remove('is-visible');
+        void resultsDiv.offsetWidth;
+        resultsDiv.innerHTML = `
+        <div style='width:min(900px, 96vw);'>
+          ${heading ? `<div style='color:#fcf9f0; font-size:1.08rem; font-weight:500; text-align:center; margin:0 0 12px 0;'>${heading}</div>` : ''}
+          <div class='artist-search-image-grid' style='display:flex;flex-wrap:wrap;gap:18px 22px;justify-content:center;align-items:flex-start;width:100%;background:none;padding:0;box-shadow:none;'>
           ${matches.map(artist => {
             const img = artistImages[artist] || '';
-            return `<div class='artist-search-image-item' style='display:flex;flex-direction:column;align-items:center;min-width:60px;max-width:80px;cursor:pointer;background:none;'>
+            return `<div class='artist-search-image-item' data-artist='${artist.replace(/'/g, "&#39;")}' style='display:flex;flex-direction:column;align-items:center;min-width:60px;max-width:86px;cursor:pointer;background:none;'>
               <div style='width:48px;height:48px;border-radius:8px;background:#d7dde2;overflow:hidden;display:flex;align-items:center;justify-content:center;'>
                 ${img ? `<img src='${img.replace(/'/g, "&#39;")}' alt='${artist.replace(/'/g, "&#39;")}' style='width:100%;height:100%;object-fit:cover;' />` : `<div style=\"color:#334155;font-size:0.72rem;font-weight:700;\">No image</div>`}
               </div>
-                <div style='color:#fcf9f0;font-size:0.89rem;font-weight:400;text-align:center;margin-top:7px;word-break:break-word;'>${artist}</div>
+                <div style='color:#fcf9f0;font-size:0.82rem;font-weight:400;text-align:center;margin-top:7px;word-break:break-word;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;line-height:1.2;max-height:2.4em;'>${artist}</div>
             </div>`;
           }).join('')}
+          </div>
         </div>`;
-        // Add click listeners to fill search bar
+        requestAnimationFrame(() => {
+          resultsDiv.classList.add('is-visible');
+        });
+        // Add click listeners to open artist profile popup
         Array.from(resultsDiv.querySelectorAll('.artist-search-image-item')).forEach(item => {
-          item.addEventListener('mousedown', e => {
+          item.addEventListener('pointerdown', e => {
             e.preventDefault();
-            const name = item.querySelector('div:last-child').textContent;
-            document.getElementById('artist-search-bar').value = name;
+          });
+          item.addEventListener('click', e => {
+            e.preventDefault();
+            const name = String(item.getAttribute('data-artist') || '').trim();
+            openArtistProfilePopup(name);
             resultsDiv.innerHTML = '';
           });
         });
@@ -147,17 +607,58 @@
       document.addEventListener('DOMContentLoaded', async () => {
         await fetchAllArtists();
         const searchBar = document.getElementById('artist-search-bar');
+        const searchBtn = document.getElementById('artist-search-btn');
         const resultsDiv = document.getElementById('artist-search-results');
         if (!searchBar) return;
-        searchBar.addEventListener('input', () => {
+
+        function runArtistSearch(showSuggestedWhenEmpty = true) {
           const q = searchBar.value.trim().toLowerCase();
           if (!q) {
-            renderArtistSearchResults([]);
+            if (showSuggestedWhenEmpty) {
+              renderArtistSearchResults(allArtists.slice(0, SUGGESTED_ARTISTS_MAX), { heading: 'Suggested artists' });
+            } else if (resultsDiv) {
+              resultsDiv.innerHTML = '';
+            }
             return;
           }
-          const matches = allArtists.filter(a => artistNameStartsWith(a, q)).slice(0, 10);
+          const matches = allArtists.filter(a => artistMatchesQuery(a, q)).slice(0, SEARCH_MATCHES_MAX);
           renderArtistSearchResults(matches);
+        }
+
+        searchBar.addEventListener('input', () => {
+          runArtistSearch(true);
         });
+
+        // Re-show predictive suggestions when input regains focus
+        searchBar.addEventListener('focus', () => {
+          runArtistSearch(true);
+        });
+
+        // Re-trigger smooth suggested-artists reveal every time the empty bar is pressed.
+        searchBar.addEventListener('pointerdown', () => {
+          if (!searchBar.value.trim()) {
+            if (resultsDiv) {
+              resultsDiv.classList.remove('is-visible');
+              resultsDiv.innerHTML = '';
+            }
+            requestAnimationFrame(() => {
+              runArtistSearch(true);
+            });
+          }
+        });
+
+        if (searchBtn) {
+          // Prevent input blur handler from clearing results before click runs.
+          searchBtn.addEventListener('mousedown', (event) => {
+            event.preventDefault();
+          });
+
+          searchBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            runArtistSearch(true);
+          });
+        }
+
         // Hide results on blur
         searchBar.addEventListener('blur', () => {
           setTimeout(() => { if (resultsDiv) resultsDiv.innerHTML = ''; }, 120);
@@ -211,7 +712,7 @@
             const marginBottoms = ['16px', '0', '16px'];
             // Numbers should match visual order: 2, 1, 3
             const numberLabels = ['2', '1', '3'];
-            container.innerHTML = `<div style="display:flex;justify-content:center;gap:38px;align-items:flex-end;">
+            container.innerHTML = `<div style="display:flex;justify-content:center;gap:38px;align-items:flex-end; width:100%; margin:0 auto; text-align:center;">
               ${displayOrder.map((sortedIdx, pos) => {
                 if (!sorted[sortedIdx]) return '';
                 const [artist, { imageUrl }] = sorted[sortedIdx];
@@ -221,8 +722,9 @@
                 const minWidth = minWidths[pos];
                 const marginBottom = marginBottoms[pos];
                 const number = numberLabels[pos];
-                return `<div style=\"display:flex;flex-direction:column;align-items:center;min-width:${minWidth}px;margin-bottom:${marginBottom};\">
-                  <div style=\"width:${photoSize}px;height:${photoSize}px;border-radius:${borderRadius}px;background:none;overflow:hidden;box-shadow:none;margin-bottom:14px;display:flex;align-items:center;justify-content:center;\">
+                const topArtistClass = number === '1' ? ' is-top-artist' : '';
+                return `<div class=\"trending-artist-item${topArtistClass}\" data-artist=\"${escapeHtml(artist)}\" style=\"display:flex;flex-direction:column;align-items:center;min-width:${minWidth}px;margin-bottom:${marginBottom};\">
+                  <div class=\"artist-image-frame\" style=\"width:${photoSize}px;height:${photoSize}px;border-radius:${borderRadius}px;background:none;overflow:hidden;margin-bottom:14px;display:flex;align-items:center;justify-content:center;\">
                     ${imageUrl ? `<img src=\"${escapeHtml(imageUrl)}\" alt=\"${escapeHtml(artist)}\" style=\"width:100%;height:100%;object-fit:cover;\" />` : `<div style=\\\"color:#334155;font-size:0.92rem;font-weight:700;\\\">No image</div>`}
                   </div>
                   <div style="color:#fcf9f0;font-size:${fontSize};font-weight:600;text-align:center;word-break:break-word;display:flex;align-items:center;justify-content:center;gap:6px;">
@@ -231,6 +733,14 @@
                 </div>`;
               }).join('')}
             </div>`;
+
+            Array.from(container.querySelectorAll('.trending-artist-item')).forEach((item) => {
+              item.addEventListener('click', () => {
+                const artistName = String(item.getAttribute('data-artist') || '').trim();
+                if (!artistName) return;
+                openArtistProfilePopup(artistName);
+              });
+            });
         } catch (e) {
           const container = document.getElementById('top-artists-list');
           if (container) container.innerHTML = '<span style="color:#aeb6c1;font-size:1.08rem;">Unable to load data.</span>';
@@ -371,6 +881,11 @@
           g.addEventListener('mouseleave', () => {
             g.classList.remove('is-revealed');
           });
+          g.addEventListener('click', () => {
+            const genreLabel = String(g.getAttribute('data-genre') || '').trim();
+            if (!genreLabel) return;
+            openGenreArtistsPopup(genreLabel);
+          });
         });
       }
       window.addEventListener('DOMContentLoaded', renderGenreGrid);
@@ -387,6 +902,125 @@
       }
       window.addEventListener('DOMContentLoaded', playTitleAnimation);
       window.addEventListener('pageshow', playTitleAnimation);
+
+      function positionMiddleLineTooltip(clientX, clientY) {
+        if (!middleLineTooltip) return;
+        const pad = 10;
+        const offset = 14;
+        let x = clientX + offset;
+        let y = clientY - offset;
+        const rect = middleLineTooltip.getBoundingClientRect();
+        if (x + rect.width > window.innerWidth - pad) {
+          x = clientX - rect.width - offset;
+        }
+        if (y + rect.height > window.innerHeight - pad) {
+          y = window.innerHeight - rect.height - pad;
+        }
+        if (y < pad) y = pad;
+        if (x < pad) x = pad;
+        middleLineTooltip.style.left = `${Math.round(x)}px`;
+        middleLineTooltip.style.top = `${Math.round(y)}px`;
+      }
+
+      function middleSeedNoise(seed, index) {
+        const value = Math.sin(seed * 12.9898 + index * 78.233) * 43758.5453;
+        return value - Math.floor(value);
+      }
+
+      function buildSmoothPathFromPoints(points) {
+        if (!points.length) return '';
+        if (points.length === 1) return `M ${points[0].x} ${points[0].y}`;
+
+        let d = `M ${points[0].x.toFixed(2)} ${points[0].y.toFixed(2)}`;
+        for (let i = 0; i < points.length - 1; i += 1) {
+          const p0 = points[Math.max(0, i - 1)];
+          const p1 = points[i];
+          const p2 = points[i + 1];
+          const p3 = points[Math.min(points.length - 1, i + 2)];
+          const cp1x = p1.x + (p2.x - p0.x) / 6;
+          const cp1y = p1.y + (p2.y - p0.y) / 6;
+          const cp2x = p2.x - (p3.x - p1.x) / 6;
+          const cp2y = p2.y - (p3.y - p1.y) / 6;
+          d += ` C ${cp1x.toFixed(2)} ${cp1y.toFixed(2)}, ${cp2x.toFixed(2)} ${cp2y.toFixed(2)}, ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`;
+        }
+        return d;
+      }
+
+      function buildMiddleScribblePath(startX, startY, endX, endY, drop, sway, direction, seed) {
+        const span = endX - startX;
+        const points = [];
+        const segments = 72;
+
+        for (let i = 0; i <= segments; i += 1) {
+          const t = i / segments;
+          const x = startX + span * t;
+          const baseY = startY + (endY - startY) * t;
+          const envelope = Math.sin(t * Math.PI);
+          const tapered = Math.pow(envelope, 1.45);
+          const centerArch = envelope * drop * 0.88;
+          const waveMain = Math.sin(t * Math.PI * 4.2 + seed * 0.7) * sway * 0.24 * direction * tapered;
+          const waveTight = Math.sin(t * Math.PI * 8.4 + seed * 1.1) * sway * 0.1 * direction * tapered;
+          const laneOffset = (((seed % 5) - 2) * sway * 0.12) * envelope;
+          let y = baseY + centerArch + waveMain + waveTight + laneOffset;
+
+          if (i === 0) y = startY;
+          if (i === segments) y = endY;
+
+          points.push({ x, y });
+        }
+
+        return buildSmoothPathFromPoints(points);
+      }
+
+      function initMiddleConnectionPaths() {
+        const groups = Array.from(document.querySelectorAll('.middle-connection-link-group'));
+        groups.forEach((group, index) => {
+          const startX = Number(group.getAttribute('data-start')) || 0;
+          const endX = Number(group.getAttribute('data-end')) || 0;
+          const startY = Number(group.getAttribute('data-start-y')) || 180;
+          const endY = Number(group.getAttribute('data-end-y')) || startY;
+          const drop = Number(group.getAttribute('data-drop')) || 36;
+          const sway = Number(group.getAttribute('data-sway')) || 26;
+          const direction = Number(group.getAttribute('data-dir')) || 1;
+          const seed = Number(group.getAttribute('data-seed')) || index + 1;
+          const pathD = buildMiddleScribblePath(startX, startY, endX, endY, drop, sway, direction, seed);
+
+          const linePath = group.querySelector('.link-line-scribble');
+          const hitPath = group.querySelector('.link-hit');
+          if (linePath) {
+            linePath.setAttribute('d', pathD);
+          }
+          if (hitPath) {
+            hitPath.setAttribute('d', pathD);
+          }
+        });
+      }
+
+      function initMiddleConnectionHover() {
+        const groups = Array.from(document.querySelectorAll('.middle-connection-link-group'));
+        if (!groups.length || !middleLineTooltip) return;
+
+        groups.forEach((group) => {
+          const hoverText = String(group.getAttribute('data-hover-text') || 'A connection awaits').trim();
+
+          group.addEventListener('pointerenter', (event) => {
+            middleLineTooltip.textContent = `Connected by: ${hoverText}`;
+            middleLineTooltip.classList.remove('is-hidden');
+            positionMiddleLineTooltip(event.clientX, event.clientY);
+          });
+
+          group.addEventListener('pointermove', (event) => {
+            positionMiddleLineTooltip(event.clientX, event.clientY);
+          });
+
+          group.addEventListener('pointerleave', () => {
+            middleLineTooltip.classList.add('is-hidden');
+          });
+        });
+      }
+
+      window.addEventListener('DOMContentLoaded', initMiddleConnectionPaths);
+      window.addEventListener('DOMContentLoaded', initMiddleConnectionHover);
     </script>
   </body>
 </html>
