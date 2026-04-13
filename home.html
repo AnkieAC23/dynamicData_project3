@@ -37,19 +37,21 @@
 
       .home-container-top::before {
         content: "";
-        position: absolute;
+        position: fixed;
         left: 0;
         right: 0;
         top: -150px;
         bottom: -150px;
+        width: 100vw;
         background: radial-gradient(
           ellipse at center 41%,
-          rgba(252, 249, 240, 0) 42%,
-          rgba(252, 249, 240, 0.055) 72%,
-          rgba(252, 249, 240, 0.13) 100%
+          rgba(252, 249, 240, 0) 40%,
+          rgba(252, 249, 240, 0.09) 72%,
+          rgba(252, 249, 240, 0.20) 100%
         );
-        filter: blur(18px);
+        filter: blur(17px);
         pointer-events: none;
+        z-index: 0;
       }
 
       .home-container-top > * {
@@ -98,7 +100,7 @@
       }
 
       .artist-image-frame {
-        border: 1.5px solid rgba(11, 30, 43, 0.95);
+        border: none;
         box-shadow: none;
         outline: none;
         background: #d7dde2;
@@ -118,7 +120,7 @@
       .artist-search-image-item:focus-within .artist-image-frame,
       .trending-artist-item:hover .artist-image-frame,
       .trending-artist-item:focus-within .artist-image-frame {
-        box-shadow: 0 0 0 2px rgba(252, 249, 240, 0.1), 0 0 22px rgba(252, 249, 240, 0.62);
+        filter: drop-shadow(0 0 8px rgba(252, 249, 240, 0.62));
         transform: translateY(-1px);
       }
 
@@ -149,6 +151,11 @@
         font-size: 0.74em;
       }
 
+      .home-search-bar::placeholder {
+        font-weight: 700;
+        font-size: 0.95em;
+      }
+
       .artist-search-results-shell {
         opacity: 0;
         transform: translateY(-8px) scale(0.99);
@@ -160,9 +167,76 @@
         opacity: 1;
         transform: translateY(0) scale(1);
       }
+
+      .artist-profile-media-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
+        overflow: hidden;
+        border: none;
+        background: transparent;
+        color: #0f172a;
+        text-decoration: none;
+        box-shadow: none;
+        transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+      }
+
+      .artist-profile-media-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .artist-profile-media-btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .artist-profile-social-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 92px;
+        height: 34px;
+        padding: 0 10px;
+        border-radius: 999px;
+        background: linear-gradient(rgba(252, 249, 240, 0.14), rgba(252, 249, 240, 0.14)), #02121b;
+        color: rgba(252, 249, 240, 0.78);
+        text-decoration: none;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        border: 2px solid transparent;
+        box-shadow: none;
+        transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+      }
+
+      .artist-profile-social-btn:hover {
+        background: #fcf9f0;
+        color: #0f172a;
+        border-color: #0f172a;
+      }
+
+      @keyframes top-artist-skeleton-pulse {
+        0% { opacity: 0.56; }
+        50% { opacity: 0.9; }
+        100% { opacity: 0.56; }
+      }
     </style>
   </head>
   <body class="home-body">
+    <div id="homeLoadingOverlay" class="loading-overlay" aria-live="polite">
+      <div class="loading-card">
+        <p id="homeLoadingLabel" class="loading-title">Finding your music connections...</p>
+        <div class="loading-bar" aria-hidden="true">
+          <div id="homeLoadingBarFill" class="loading-bar-fill"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="hero-bg" aria-hidden="true"></div>
     <header class="hero-copy" aria-label="Home heading">
       <h1 id="homeTitle">
@@ -177,26 +251,27 @@
           <div id="top-artists-list" style="margin-bottom: 32px; text-align: center;"></div>
         </div>
         <div class="home-container home-container-middle" style="padding: 54px 0 44px 0;">
-          <div class="home-btn-title" style="margin-top: 36px; margin-bottom: 48px;">The Connection Network</div>
+          <div class="home-btn-title" style="margin-top: 36px; margin-bottom: 10px; font-family: 'spalla', sans-serif; font-size: clamp(1.8rem, 3.2vw, 2.4rem); font-weight: 700;">The Cönnections Network</div>
+          <div class="home-subtitle" style="color: rgba(252, 249, 240, 0.68); font-size: 0.92rem; font-weight: 500; text-align: center; margin-bottom: 34px;">See how your music taste connects you to others.</div>
           <div class="middle-connection-decor" aria-hidden="true">
             <svg class="middle-connection-svg" viewBox="0 0 1600 320" preserveAspectRatio="none">
-              <g class="link-group middle-connection-link-group" data-hover-text="Go find your connections" data-start="0" data-start-y="24" data-end="1600" data-end-y="270" data-drop="56" data-sway="74" data-dir="1" data-seed="1">
+              <g class="link-group middle-connection-link-group" data-hover-text="Explore the Connections Network" data-start="0" data-start-y="46" data-end="1600" data-end-y="270" data-drop="56" data-sway="74" data-dir="1" data-seed="1">
                 <path class="link-line-scribble" d="" />
                 <path class="link-hit" d="" />
               </g>
-              <g class="link-group middle-connection-link-group" data-hover-text="A connection awaits" data-start="0" data-start-y="248" data-end="1600" data-end-y="136" data-drop="54" data-sway="72" data-dir="-1" data-seed="2">
+              <g class="link-group middle-connection-link-group" data-hover-text="Find your music matches" data-start="0" data-start-y="248" data-end="1600" data-end-y="136" data-drop="54" data-sway="72" data-dir="-1" data-seed="2">
                 <path class="link-line-scribble" d="" />
                 <path class="link-hit" d="" />
               </g>
-              <g class="link-group middle-connection-link-group" data-hover-text="Go find your connections" data-start="0" data-start-y="86" data-end="1600" data-end-y="214" data-drop="46" data-sway="64" data-dir="-1" data-seed="3">
+              <g class="link-group middle-connection-link-group" data-hover-text="How unique is your music taste?" data-start="0" data-start-y="86" data-end="1600" data-end-y="214" data-drop="46" data-sway="64" data-dir="-1" data-seed="3">
                 <path class="link-line-scribble" d="" />
                 <path class="link-hit" d="" />
               </g>
-              <g class="link-group middle-connection-link-group" data-hover-text="Find the path between us" data-start="0" data-start-y="196" data-end="1600" data-end-y="68" data-drop="60" data-sway="76" data-dir="1" data-seed="4">
+              <g class="link-group middle-connection-link-group" data-hover-text="What does your music say about you?" data-start="0" data-start-y="196" data-end="1600" data-end-y="68" data-drop="60" data-sway="76" data-dir="1" data-seed="4">
                 <path class="link-line-scribble" d="" />
                 <path class="link-hit" d="" />
               </g>
-              <g class="link-group middle-connection-link-group" data-hover-text="Find the path between us" data-start="0" data-start-y="148" data-end="1600" data-end-y="184" data-drop="50" data-sway="68" data-dir="-1" data-seed="5">
+              <g class="link-group middle-connection-link-group" data-hover-text="What connections will you find?" data-start="0" data-start-y="148" data-end="1600" data-end-y="184" data-drop="50" data-sway="68" data-dir="-1" data-seed="5">
                 <path class="link-line-scribble" d="" />
                 <path class="link-hit" d="" />
               </g>
@@ -224,38 +299,65 @@
             </div>
           </div>
           <div id="artist-search-results" class="artist-search-results-shell" style="width:100%;display:flex;justify-content:center;align-items:flex-start;margin-bottom:10px;"></div>
-          <div class="home-subtitle" style="color: rgba(252, 249, 240, 0.68); font-size: 1.08rem; font-weight: 500; text-align: center; margin-top: 56px; margin-bottom: 32px;">By Genre</div>
+          <div class="home-subtitle" style="color: rgba(252, 249, 240, 0.68); font-size: 1.08rem; font-weight: 700; text-align: center; margin-top: 56px; margin-bottom: 32px;">By Genre</div>
           <div id="genre-grid" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
         </div>
       </div>
     </main>
-    <footer class="home-footer" style="background: rgba(11, 30, 43, 0.95); width: 100vw; padding: 32px 0 24px 0; text-align: center; color: #fff; font-size: 1rem; font-weight: 500; letter-spacing: 0.01em; margin-top: auto;">
-      <div style="margin-bottom: 8px; font-size: 1rem;">&copy; 2026 Ankie Chen</div>
-      <div class="info-popup-footer-row" style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-align: center; color: #fff; font-size: 1rem;">
-        <span class="info-spotify-text" style="color: #fff; font-size: 1rem;">Data provided by</span>
-        <a class="info-spotify-credit" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" aria-label="Open Spotify">
-          <img src="images/logo2.png" alt="Spotify logo" class="info-spotify-logo" style="width: 72px; height: 72px; object-fit: contain;" />
-        </a>
-        <span class="info-footer-dot" aria-hidden="true" style="color: #fff; font-size: 1rem;">•</span>
-        <p class="info-project-note" style="margin: 0; color: #fff; font-size: 1rem; font-weight: 500;">Student project for VDES39915</p>
+    <footer class="home-footer" style="background: rgba(11, 30, 43, 0.95); width: 100vw; padding: 30px 0 12px 0; text-align: center; color: rgba(252, 249, 240, 0.68); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.01em; margin-top: auto;">
+      <div style="margin-bottom: 2px; font-size: 0.8rem; color: rgba(252, 249, 240, 0.68);">&copy; 2026 Ankie Chen</div>
+      <div class="info-popup-footer-row" style="display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; text-align: center; color: rgba(252, 249, 240, 0.68); font-size: 0.8rem;">
+        <span style="display:inline-flex; align-items:center; gap:8px;">
+          <span class="info-spotify-text" style="color: rgba(252, 249, 240, 0.68); font-size: 0.8rem;">Data provided by</span>
+          <a class="info-spotify-credit" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" aria-label="Open Spotify">
+            <img src="images/logo2.png" alt="Spotify logo" class="info-spotify-logo" style="width: 72px; height: 72px; object-fit: contain;" />
+          </a>
+        </span>
+        <span class="info-footer-dot" aria-hidden="true" style="color: rgba(252, 249, 240, 0.68); font-size: 0.8rem;">•</span>
+        <p class="info-project-note" style="margin: 0; color: rgba(252, 249, 240, 0.68); font-size: 0.8rem; font-weight: 500;">Student project for VDES39915</p>
       </div>
     </footer>
 
     <div id="artistProfilePanel" class="entry-popup" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Artist Profile">
-      <div class="entry-popup-card" style="width:min(760px, calc(100vw - 24px)); height:auto; min-height:420px; grid-template-rows:auto auto 1fr;">
+      <div class="entry-popup-card" style="width:min(1040px, calc(100vw - 24px)); height:auto; min-height:420px; grid-template-rows:auto 1fr;">
         <div class="entry-popup-header">
-          <h2 class="entry-popup-title" id="artistProfileName">Artist Name</h2>
+          <h2 class="entry-popup-title" id="artistProfileName">ABOUT</h2>
           <button id="artistProfileClose" class="entry-popup-close" type="button" aria-label="Close artist profile">X</button>
         </div>
-        <p id="artistProfileSubtitle" style="margin:0 0 2px 0; color:#475569; font-size:0.95rem;">Artist profile</p>
-        <div style="position:relative; min-height:0; border-radius:12px; overflow:hidden; border:1px solid rgba(15, 23, 42, 0.12); background:#ffffff; padding:18px;">
-          <div style="display:grid; grid-template-columns:120px 1fr; gap:16px; align-items:start;">
-            <img id="artistProfileImage" src="" alt="Artist image" style="display:none; width:120px; height:120px; object-fit:cover; border-radius:12px; background:#d7dde2;" />
-            <div>
-              <p id="artistProfileGenres" style="margin:0 0 8px 0; color:#0f172a; font-size:0.95rem;"></p>
-              <p id="artistProfileCount" style="margin:0 0 8px 0; color:#0f172a; font-size:0.95rem;"></p>
-              <p id="artistProfileAbout" style="margin:0 0 12px 0; color:#334155; font-size:0.92rem; line-height:1.45;"></p>
-              <a id="artistProfileSpotify" href="#" target="_blank" rel="noopener" style="display:none; text-decoration:none; background:#1db954; color:#ffffff; padding:8px 14px; border-radius:999px; font-weight:700; font-size:0.9rem;">View on Spotify</a>
+        <div style="position:relative; min-height:0; border-radius:12px; overflow:auto; border:1px solid rgba(15, 23, 42, 0.12); background:#ffffff; padding:24px;">
+          <div style="display:grid; grid-template-columns:minmax(380px, 430px) 1fr; gap:24px; align-items:start;">
+            <div style="display:flex; justify-content:center; align-items:flex-start; padding:12px;">
+              <img id="artistProfileImage" src="" alt="Artist image" style="display:none; width:min(100%, 400px); aspect-ratio:1 / 1; object-fit:cover; border-radius:18px; background:#d7dde2;" />
+            </div>
+            <div style="padding:12px 12px 4px;">
+              <h3 id="artistProfileDisplayName" class="entry-popup-title" style="margin:0 0 8px 0;">Artist Name</h3>
+              <p id="artistProfileAbout" style="margin:0; color:#0f172a; font-size:0.8rem; font-weight:500; line-height:1.5;"></p>
+              <div style="margin-top:34px;">
+                <div style="margin-bottom:12px; color:#0f172a; font-size:0.8rem; font-weight:700; letter-spacing:0.01em;">Listen Here</div>
+                <div style="display:flex; flex-wrap:wrap; align-items:center; gap:18px;">
+                  <a id="artistProfileSpotifyLink" href="#" target="_blank" rel="noopener noreferrer" aria-label="Listen on Spotify" class="artist-profile-media-btn" style="display:none;">
+                    <img src="images/spotify.png" alt="Spotify" />
+                  </a>
+                  <span class="artist-profile-media-btn" aria-hidden="true">
+                    <img src="images/amazon.png" alt="Amazon Music" />
+                  </span>
+                  <span class="artist-profile-media-btn" aria-hidden="true">
+                    <img src="images/apple.png" alt="Apple Music" />
+                  </span>
+                  <span class="artist-profile-media-btn" aria-hidden="true">
+                    <img src="images/youtube.png" alt="YouTube" />
+                  </span>
+                </div>
+              </div>
+              <div style="margin-top:34px;">
+                <div style="margin-bottom:12px; color:#0f172a; font-size:0.8rem; font-weight:700; letter-spacing:0.01em;">Follow Here</div>
+                <div style="display:flex; flex-wrap:nowrap; align-items:center; gap:12px;">
+                  <a href="#" class="artist-profile-social-btn" aria-label="Follow on Facebook">Facebook</a>
+                  <a href="#" class="artist-profile-social-btn" aria-label="Follow on Instagram">Instagram</a>
+                  <a href="#" class="artist-profile-social-btn" aria-label="Follow on X">X</a>
+                  <a href="#" class="artist-profile-social-btn" aria-label="Learn more on Wikipedia">Wikipedia</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -274,32 +376,88 @@
       let artistDetails = {};
       let genreArtistMap = {};
       let genreDetailOpen = false;
+      let searchResultsHideTimeout = null;
+      let homeLoadingProgress = 0;
+      let homeLoadingTimer = null;
       const SUGGESTED_ARTISTS_MAX = 8;
       const SEARCH_MATCHES_MAX = 24;
       const middleLineTooltip = document.getElementById('middleLineTooltip');
+      const homeLoadingOverlay = document.getElementById('homeLoadingOverlay');
+      const homeLoadingLabel = document.getElementById('homeLoadingLabel');
+      const homeLoadingBarFill = document.getElementById('homeLoadingBarFill');
 
       const artistProfilePanel = document.getElementById('artistProfilePanel');
       const artistProfileClose = document.getElementById('artistProfileClose');
       const artistProfileName = document.getElementById('artistProfileName');
-      const artistProfileSubtitle = document.getElementById('artistProfileSubtitle');
+      const artistProfileDisplayName = document.getElementById('artistProfileDisplayName');
       const artistProfileImage = document.getElementById('artistProfileImage');
-      const artistProfileGenres = document.getElementById('artistProfileGenres');
-      const artistProfileCount = document.getElementById('artistProfileCount');
       const artistProfileAbout = document.getElementById('artistProfileAbout');
-      const artistProfileSpotify = document.getElementById('artistProfileSpotify');
+      const artistProfileSpotifyLink = document.getElementById('artistProfileSpotifyLink');
+      const artistProfileBioTemplates = [
+        'Blending creativity with authenticity, {artist} brings a unique voice to every project they touch. With a sound that evolves across genres and influences, their work reflects both personal expression and a deep connection to their audience. Continuously exploring new ideas and pushing creative boundaries, they aim to create experiences that resonate, inspire, and leave a lasting impression.',
+        'Driven by passion and a love for storytelling, {artist} crafts music that captures moments, moods, and meaning. Their style draws from a wide range of influences, resulting in a sound that feels both familiar and refreshingly original. As they continue to grow and experiment, their goal remains the same: to connect with listeners through honest, impactful artistry.',
+        'Every track tells a story, and {artist} uses their sound as a way to capture experiences, emotions, and ideas. Drawing inspiration from a variety of genres, they build music that feels immersive and relatable. As they continue to grow, their artistry remains grounded in honest expression and creative exploration.'
+      ];
+
+      function getArtistProfileBio(artistName) {
+        const safeName = String(artistName || 'This artist').trim() || 'This artist';
+        const templateIndex = Math.floor(Math.random() * artistProfileBioTemplates.length);
+        return artistProfileBioTemplates[templateIndex].replaceAll('{artist}', safeName);
+      }
+
+      function renderHomeLoadingProgress() {
+        if (!homeLoadingBarFill) return;
+        homeLoadingBarFill.style.width = `${homeLoadingProgress}%`;
+      }
+
+      function setHomeLoadingLabel(text) {
+        if (!homeLoadingLabel) return;
+        homeLoadingLabel.textContent = text;
+      }
+
+      function startHomeLoadingProgress() {
+        if (homeLoadingTimer) return;
+        homeLoadingProgress = Math.max(homeLoadingProgress, 6);
+        renderHomeLoadingProgress();
+        homeLoadingTimer = setInterval(() => {
+          homeLoadingProgress = Math.min(90, homeLoadingProgress + 1.8);
+          renderHomeLoadingProgress();
+          if (homeLoadingProgress >= 90) {
+            clearInterval(homeLoadingTimer);
+            homeLoadingTimer = null;
+          }
+        }, 180);
+      }
+
+      function advanceHomeLoadingProgress(target, labelText) {
+        if (typeof labelText === 'string' && labelText.trim()) {
+          setHomeLoadingLabel(labelText);
+        }
+        homeLoadingProgress = Math.max(homeLoadingProgress, Math.min(100, target));
+        renderHomeLoadingProgress();
+      }
+
+      function finishHomeLoading() {
+        if (homeLoadingTimer) {
+          clearInterval(homeLoadingTimer);
+          homeLoadingTimer = null;
+        }
+        advanceHomeLoadingProgress(100, 'Get ready to discover something new.');
+        setTimeout(() => {
+          if (homeLoadingOverlay) {
+            homeLoadingOverlay.classList.add('is-hidden');
+          }
+        }, 700);
+      }
 
       function openArtistProfilePopup(artistName) {
         if (!artistProfilePanel) return;
         const detail = artistDetails[artistName] || {};
         const imageUrl = String(detail.imageUrl || '').trim();
         const spotifyUrl = String(detail.spotifyUrl || '').trim();
-        const genres = String(detail.genres || '').trim();
-        const count = Number(detail.count) || 0;
 
-        if (artistProfileName) artistProfileName.textContent = artistName || 'Unknown Artist';
-        if (artistProfileSubtitle) {
-          artistProfileSubtitle.textContent = 'Artist profile';
-        }
+        if (artistProfileName) artistProfileName.textContent = 'ABOUT';
+        if (artistProfileDisplayName) artistProfileDisplayName.textContent = artistName || 'Unknown Artist';
 
         if (artistProfileImage) {
           if (imageUrl) {
@@ -310,25 +468,16 @@
           }
         }
 
-        if (artistProfileGenres) {
-          artistProfileGenres.textContent = genres ? `Genres: ${genres}` : 'Genres: Placeholder genre';
-        }
-
-        if (artistProfileCount) {
-          artistProfileCount.textContent = `Mentions: ${count}`;
-        }
-
         if (artistProfileAbout) {
-          artistProfileAbout.textContent =
-            'This is placeholder profile text for now. Artist details can be expanded later with biography, top songs, and collaboration insights.';
+          artistProfileAbout.textContent = getArtistProfileBio(artistName);
         }
 
-        if (artistProfileSpotify) {
+        if (artistProfileSpotifyLink) {
           if (spotifyUrl) {
-            artistProfileSpotify.href = spotifyUrl;
-            artistProfileSpotify.style.display = '';
+            artistProfileSpotifyLink.href = spotifyUrl;
+            artistProfileSpotifyLink.style.display = 'inline-flex';
           } else {
-            artistProfileSpotify.style.display = 'none';
+            artistProfileSpotifyLink.style.display = 'none';
           }
         }
 
@@ -426,7 +575,7 @@
           genreGrid.innerHTML = `
             <div style="width:min(980px, 96vw); margin:0 auto;">
               <div style="position:relative; margin-bottom:12px; text-align:center; min-height:30px;">
-                <h3 style="margin:0; color:#fcf9f0; font-size:1.35rem; font-weight:700;">${genreLabel}</h3>
+                <h3 style="margin:0; color:#fcf9f0; font-family:'spalla', sans-serif; font-size:1.35rem; font-weight:700;">${genreLabel}</h3>
                 <button id="genreArtistsInlineClose" type="button" style="position:absolute; right:0; top:0; border:none; outline:none; width:30px; height:30px; border-radius:999px; background:rgba(252,249,240,0.14); color:#fcf9f0; font-size:0.9rem; font-weight:800; cursor:pointer;">X</button>
               </div>
               <p style="margin:0 0 14px 0; color:#b8cad4; text-align:center;">No artists found for this genre yet.</p>
@@ -446,10 +595,10 @@
           genreGrid.innerHTML = `
             <div style="width:min(980px, 96vw); margin:0 auto;">
               <div style="position:relative; margin-bottom:6px; text-align:center; min-height:30px;">
-                <h3 style="margin:0; color:#fcf9f0; font-size:1.35rem; font-weight:700;">${genreLabel}</h3>
+                <h3 style="margin:0; color:#fcf9f0; font-family:'spalla', sans-serif; font-size:1.35rem; font-weight:700;">${genreLabel}</h3>
                 <button id="genreArtistsInlineClose" type="button" style="position:absolute; right:0; top:0; border:none; outline:none; width:30px; height:30px; border-radius:999px; background:rgba(252,249,240,0.14); color:#fcf9f0; font-size:0.9rem; font-weight:800; cursor:pointer;">X</button>
               </div>
-              <p style="margin:0 0 14px 0; color:#b8cad4; text-align:center;">${artists.length} artist${artists.length === 1 ? '' : 's'} in this genre</p>
+              <p style="margin:0 0 14px 0; color:rgba(252, 249, 240, 0.68); text-align:center;">${artists.length} artist${artists.length === 1 ? '' : 's'} in this genre</p>
               <div class='artist-search-image-grid' style='display:flex;flex-direction:column;gap:18px;width:100%;background:none;padding:0;box-shadow:none;'>
                 ${rows
                   .map(
@@ -565,6 +714,10 @@
         const { heading = '' } = options;
         const resultsDiv = document.getElementById('artist-search-results');
         if (!resultsDiv) return;
+        if (searchResultsHideTimeout) {
+          clearTimeout(searchResultsHideTimeout);
+          searchResultsHideTimeout = null;
+        }
         if (!matches.length) {
           resultsDiv.innerHTML = '';
           resultsDiv.classList.remove('is-visible');
@@ -574,12 +727,12 @@
         void resultsDiv.offsetWidth;
         resultsDiv.innerHTML = `
         <div style='width:min(900px, 96vw);'>
-          ${heading ? `<div style='color:#fcf9f0; font-size:1.08rem; font-weight:500; text-align:center; margin:0 0 12px 0;'>${heading}</div>` : ''}
+          ${heading ? `<div style='color:rgba(252, 249, 240, 0.68); font-size:0.98rem; font-weight:500; text-align:center; margin:0 0 12px 0;'>${heading}</div>` : ''}
           <div class='artist-search-image-grid' style='display:flex;flex-wrap:wrap;gap:18px 22px;justify-content:center;align-items:flex-start;width:100%;background:none;padding:0;box-shadow:none;'>
           ${matches.map(artist => {
             const img = artistImages[artist] || '';
             return `<div class='artist-search-image-item' data-artist='${artist.replace(/'/g, "&#39;")}' style='display:flex;flex-direction:column;align-items:center;min-width:60px;max-width:86px;cursor:pointer;background:none;'>
-              <div style='width:48px;height:48px;border-radius:8px;background:#d7dde2;overflow:hidden;display:flex;align-items:center;justify-content:center;'>
+              <div class='artist-image-frame' style='width:48px;height:48px;border-radius:8px;background:#d7dde2;overflow:hidden;display:flex;align-items:center;justify-content:center;'>
                 ${img ? `<img src='${img.replace(/'/g, "&#39;")}' alt='${artist.replace(/'/g, "&#39;")}' style='width:100%;height:100%;object-fit:cover;' />` : `<div style=\"color:#334155;font-size:0.72rem;font-weight:700;\">No image</div>`}
               </div>
                 <div style='color:#fcf9f0;font-size:0.82rem;font-weight:400;text-align:center;margin-top:7px;word-break:break-word;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;line-height:1.2;max-height:2.4em;'>${artist}</div>
@@ -599,17 +752,28 @@
             e.preventDefault();
             const name = String(item.getAttribute('data-artist') || '').trim();
             openArtistProfilePopup(name);
-            resultsDiv.innerHTML = '';
           });
         });
       }
 
       document.addEventListener('DOMContentLoaded', async () => {
+        startHomeLoadingProgress();
+        advanceHomeLoadingProgress(14, 'Loading artists...');
+        renderTopArtistsSkeleton();
         await fetchAllArtists();
+        advanceHomeLoadingProgress(54);
+        const topArtistsPromise = fetchAndRenderTopArtists();
+        advanceHomeLoadingProgress(78);
+        renderGenreGrid();
+        advanceHomeLoadingProgress(92);
+
         const searchBar = document.getElementById('artist-search-bar');
         const searchBtn = document.getElementById('artist-search-btn');
         const resultsDiv = document.getElementById('artist-search-results');
-        if (!searchBar) return;
+        if (!searchBar) {
+          finishHomeLoading();
+          return;
+        }
 
         function runArtistSearch(showSuggestedWhenEmpty = true) {
           const q = searchBar.value.trim().toLowerCase();
@@ -659,15 +823,64 @@
           });
         }
 
-        // Hide results on blur
         searchBar.addEventListener('blur', () => {
-          setTimeout(() => { if (resultsDiv) resultsDiv.innerHTML = ''; }, 120);
+          setTimeout(() => {
+            if (!resultsDiv) return;
+            if (artistProfilePanel && artistProfilePanel.classList.contains('is-open')) return;
+            resultsDiv.classList.remove('is-visible');
+            if (searchResultsHideTimeout) {
+              clearTimeout(searchResultsHideTimeout);
+            }
+            searchResultsHideTimeout = setTimeout(() => {
+              if (!resultsDiv.classList.contains('is-visible')) {
+                resultsDiv.innerHTML = '';
+              }
+              searchResultsHideTimeout = null;
+            }, 260);
+          }, 20);
         });
+
+        try {
+          await topArtistsPromise;
+        } catch (_error) {
+          // fetchAndRenderTopArtists already handles fallback UI
+        }
+
+        finishHomeLoading();
+
       });
 
       // --- Top Artists Fetch and Render ---
 
+      function renderTopArtistsSkeleton() {
+        const container = document.getElementById('top-artists-list');
+        if (!container) return;
+
+        const photoSizes = [140, 200, 140];
+        const borderRadii = [12, 18, 12];
+        const minWidths = [160, 160, 160];
+        const marginBottoms = ['16px', '0', '16px'];
+        const numberLabels = ['2', '1', '3'];
+
+        container.innerHTML = `<div style="display:flex;justify-content:center;gap:38px;align-items:flex-end; width:100%; margin:0 auto; text-align:center;">
+          ${photoSizes.map((photoSize, idx) => {
+            const borderRadius = borderRadii[idx];
+            const minWidth = minWidths[idx];
+            const marginBottom = marginBottoms[idx];
+            const number = numberLabels[idx];
+            return `<div aria-hidden="true" style="display:flex;flex-direction:column;align-items:center;min-width:${minWidth}px;margin-bottom:${marginBottom};">
+              <div style="width:${photoSize}px;height:${photoSize}px;border-radius:${borderRadius}px;background:rgba(252, 249, 240, 0.14);margin-bottom:14px;animation:top-artist-skeleton-pulse 1.3s ease-in-out infinite;"></div>
+              <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
+                <span style="display:inline-flex;align-items:center;justify-content:center;min-width:1.55em;height:1.55em;padding:0 0.24em;border:1.5px solid rgba(252, 249, 240, 0.42);border-radius:999px;color:rgba(252, 249, 240, 0.58);font-size:0.9rem;font-weight:700;line-height:1;">${number}</span>
+                <span style="color:rgba(252, 249, 240, 0.46);font-size:1rem;font-weight:400;animation:top-artist-skeleton-pulse 1.3s ease-in-out infinite;">...</span>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>`;
+      }
+
       async function fetchAndRenderTopArtists() {
+        renderTopArtistsSkeleton();
         try {
           const res = await fetch('/api/responses');
           const data = await res.json();
@@ -708,7 +921,7 @@
             const photoSizes = [140, 200, 140]; // 2nd, 1st, 3rd
             const borderRadii = [12, 18, 12]; // less rounded
             const fontSizes = ['1.22rem', '1.38rem', '1.22rem'];
-            const minWidths = [120, 160, 120];
+            const minWidths = [160, 160, 160];
             const marginBottoms = ['16px', '0', '16px'];
             // Numbers should match visual order: 2, 1, 3
             const numberLabels = ['2', '1', '3'];
@@ -727,8 +940,8 @@
                   <div class=\"artist-image-frame\" style=\"width:${photoSize}px;height:${photoSize}px;border-radius:${borderRadius}px;background:none;overflow:hidden;margin-bottom:14px;display:flex;align-items:center;justify-content:center;\">
                     ${imageUrl ? `<img src=\"${escapeHtml(imageUrl)}\" alt=\"${escapeHtml(artist)}\" style=\"width:100%;height:100%;object-fit:cover;\" />` : `<div style=\\\"color:#334155;font-size:0.92rem;font-weight:700;\\\">No image</div>`}
                   </div>
-                  <div style="color:#fcf9f0;font-size:${fontSize};font-weight:600;text-align:center;word-break:break-word;display:flex;align-items:center;justify-content:center;gap:6px;">
-                    <span style=\"font-size:0.92em;font-weight:700;vertical-align:middle;opacity:0.82;\">${number}</span><span>${escapeHtml(artist)}</span>
+                  <div style="color:#fcf9f0;font-size:${fontSize};font-weight:400;text-align:center;word-break:break-word;display:flex;align-items:center;justify-content:center;gap:8px;">
+                    <span style=\"display:inline-flex;align-items:center;justify-content:center;min-width:1.55em;height:1.55em;padding:0 0.24em;border:1.5px solid rgba(252, 249, 240, 0.68);border-radius:999px;color:rgba(252, 249, 240, 0.68);font-size:0.78em;font-weight:800;line-height:1;vertical-align:middle;\">${number}</span><span style=\"font-weight:400;\">${escapeHtml(artist)}</span>
                   </div>
                 </div>`;
               }).join('')}
@@ -741,10 +954,34 @@
                 openArtistProfilePopup(artistName);
               });
             });
+
+            await waitForTopArtistImages(container);
         } catch (e) {
           const container = document.getElementById('top-artists-list');
           if (container) container.innerHTML = '<span style="color:#aeb6c1;font-size:1.08rem;">Unable to load data.</span>';
         }
+      }
+
+      async function waitForTopArtistImages(container) {
+        if (!container) return;
+        const images = Array.from(container.querySelectorAll('img'));
+        if (!images.length) return;
+
+        await Promise.race([
+          Promise.all(images.map((img) => {
+            if (img.complete) return Promise.resolve();
+            return new Promise((resolve) => {
+              const done = () => {
+                img.removeEventListener('load', done);
+                img.removeEventListener('error', done);
+                resolve();
+              };
+              img.addEventListener('load', done, { once: true });
+              img.addEventListener('error', done, { once: true });
+            });
+          })),
+          new Promise((resolve) => setTimeout(resolve, 1400))
+        ]);
       }
       // Escape HTML utility
       function escapeHtml(value) {
@@ -755,7 +992,7 @@
           .replaceAll('"', '&quot;')
           .replaceAll("'", '&#039;');
       }
-      window.addEventListener('DOMContentLoaded', fetchAndRenderTopArtists);
+      
 
       // --- Genre grid rendering for home page bottom container ---
       const GENRE_GRID = [
@@ -888,7 +1125,7 @@
           });
         });
       }
-      window.addEventListener('DOMContentLoaded', renderGenreGrid);
+      
       // Replay the slide-in animation for the title on every load and on bfcache restore (back/forward)
       function playTitleAnimation() {
         var heroCopy = document.querySelector('.hero-copy');
@@ -1004,7 +1241,7 @@
           const hoverText = String(group.getAttribute('data-hover-text') || 'A connection awaits').trim();
 
           group.addEventListener('pointerenter', (event) => {
-            middleLineTooltip.textContent = `Connected by: ${hoverText}`;
+            middleLineTooltip.textContent = hoverText;
             middleLineTooltip.classList.remove('is-hidden');
             positionMiddleLineTooltip(event.clientX, event.clientY);
           });

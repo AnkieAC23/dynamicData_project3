@@ -218,12 +218,24 @@ body.home-body {
   top: 0;
   left: 0;
   width: 100vw;
-  min-height: 120px;
+  min-height: 132px;
   z-index: 10;
-  background: linear-gradient(180deg, rgba(2,18,27,1.0) 0%, rgba(2,18,27,0.92) 30%, rgba(2,18,27,0.0) 100%);
-  box-shadow: 0 2px 12px 0 rgba(2,6,23,0.10);
+  background: linear-gradient(180deg, rgba(2,18,27,1.0) 0%, rgba(2,18,27,0.94) 20%, rgba(2,18,27,0.78) 42%, rgba(2,18,27,0.42) 68%, rgba(2,18,27,0.12) 88%, rgba(2,18,27,0.0) 100%);
+  box-shadow: none;
   pointer-events: none;
-  border-radius: 0 0 24px 24px;
+  border-radius: 0;
+}
+
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -36px;
+  height: 72px;
+  background: linear-gradient(180deg, rgba(2, 18, 27, 0.18) 0%, rgba(2, 18, 27, 0) 100%);
+  filter: blur(12px);
+  pointer-events: none;
 }
 /* Toggle panel button */
 .toggle-panel-btn {
