@@ -651,7 +651,7 @@
 
       async function fetchAllArtists() {
         try {
-          const res = await fetch('/api/artist-counts');
+          const res = await fetch('/api/artistCounts');
           const data = await res.json();
           const rows = Array.isArray(data.rows) ? data.rows : (Array.isArray(data) ? data : []);
           const counts = {};
