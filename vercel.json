@@ -1,5 +1,17 @@
 {
   "version": 2,
+  "functions": {
+    "server.js": {
+      "includeFiles": [
+        "home.html",
+        "index.html",
+        "style.css",
+        "script.js",
+        "images/**",
+        "api/**"
+      ]
+    }
+  },
   "builds": [
     {
       "src": "server.js",
