@@ -11,8 +11,5 @@
       "src": "/(.*)",
       "dest": "server.js"
     }
-  ],
-  "env": {
-    "APPS_SCRIPT_URL": "@apps_script_url"
-  }
+  ]
 }
