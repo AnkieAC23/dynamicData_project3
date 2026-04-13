@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
-      "destination": "/home.html"
+      "src": "^/$",
+      "dest": "/home.html"
+    },
+    {
+      "handle": "filesystem"
     }
   ]
 }
